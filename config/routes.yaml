@@ -1,0 +1,28 @@
+#index:
+app_home:
+    path: /
+    controller: App\Controller\HomeController::home
+
+app_cameras:
+    path: /cameras
+    controller: App\Controller\CameraController::home
+
+app_camera:
+    path: /camera/{id}
+    controller: App\Controller\CameraController::camera
+    requirements:
+        id: '\d+'
+
+app_lenses:
+    path: /lenses
+    controller: App\Controller\LensController::home
+
+app_lens:
+    path: /lens/{id}
+    controller: App\Controller\LensController::lens
+    requirements:
+        id: '\d+'
+
+app_forum:
+    path: /forum
+    controller: App\Controller\ForumController::home
