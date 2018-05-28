@@ -13,6 +13,20 @@ app_camera:
     requirements:
         id: '\d+'
 
+app_add_new_camera:
+    path: /add-new-camera
+    controller: App\Controller\CameraController::addCamera
+
+app_modify_camera:
+    path: /modify-camera/{id}
+    controller: App\Controller\CameraController::modifyCamera
+    requirements:
+        id: '\d+'
+
+app_add_new_monture:
+    path: /add-new-monture
+    controller: App\Controller\MontureController::addMonture
+    
 app_lenses:
     path: /lenses
     controller: App\Controller\LensController::home
@@ -23,6 +37,32 @@ app_lens:
     requirements:
         id: '\d+'
 
+app_add_new_lens:
+    path: /add-new-lens
+    controller: App\Controller\LensController::addLens
+
+app_modify_lens:
+    path: /modify-lens/{id}
+    controller: App\Controller\LensController::modifyLens
+    requirements:
+        id: '\d+'
+
+app_add_new_lens_manufacturer:
+    path: /add-new-lens-manufacturer
+    controller: App\Controller\LensManufacturerController::addManufacturer
+
 app_forum:
     path: /forum
     controller: App\Controller\ForumController::home
+
+app_user_test:
+    path: /user-test
+    controller: App\Controller\UserController::test
+
+app_add_new_category:
+    path: /add-new-category
+    controller: App\Controller\CamCategoryController::addCategory
+
+app_add_new_manufacturer:
+    path: /add-new-manufacturer
+    controller: App\Controller\CamManufacturerController::addManufacturer

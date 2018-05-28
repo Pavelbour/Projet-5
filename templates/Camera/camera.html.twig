@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ camera.manufacturer.manufacturer ~ " " ~ camera.CameraName }}{% endblock %}
+
+{% block body %}
+    <h1>{{ camera.manufacturer.manufacturer ~ " " ~ camera.CameraName }}</h1>
+    <div>
+        {{ camera.category.category }}
+        {{ camera.sensor }}
+        {% for monture in camera.monture %}
+            {{ monture.monture }}
+        {% endfor %}
+        {{ camera.Length }}
+        {{ camera.width }}
+        {{ camera.height }}
+        {{ camera.weight }}
+        {{ camera.time }}
+        {{ camera.description }}
+    </div>
+    <div>
+        <a href="{{ path("app_cameras") }}">Retour à la liste</a>
+        <a href="{{ path('app_modify_camera', { 'id': camera.id }) }}">Modifier</a>
+    </div>
+{% endblock %}

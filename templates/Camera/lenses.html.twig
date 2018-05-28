@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste d'objectifs{% endblock %}
+
+{% block body %}
+    <h1>Objectifs pour les appareils photo</h1>
+
+    <ul>
+        {% for lens in list %}
+            <li><a href="{{ path('app_lens', { 'id': lens.id }) }}">{{ lens.manufacturer.manufacturer ~ " " ~ lens.name }}</a></li>
+        {% endfor %}
+    </ul>
+
+    <a href="{{ path('app_add_new_lens_manufacturer') }}">Ajouter un nouveau fabricant d'objectifs</a>
+    <a href="{{ path('app_add_new_lens') }}">Ajouter un nouveau objectif</a>
+{% endblock %}

@@ -1,7 +1,25 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste d'objectifs{% endblock %}
+{% block title %}{{ lens.manufacturer.manufacturer ~ " " ~ lens.name }}{% endblock %}
 
 {% block body %}
-    <h1>Objectifs pour les appareils photo</h1>
+    <h1>{{ lens.manufacturer.manufacturer ~ " " ~ lens.name }}</h1>
+    <div>
+        {{ lens.length }}
+        {{ lens.monture.monture }}
+        {{ lens.diameter }}
+        {{ lens.weight }}
+        {{ lens.focallengthmin }}
+        {{ lens.focallengthmax }}
+        {{ lens.focuse }}
+        {{ lens.diameteroffilter }}
+        {{ lens.description }}
+        {% for manufacturer in lens.forManufacturer %}
+            {{ manufacturer.manufacturer }}
+        {% endfor %}
+    </div>
+    <div>
+        <a href="{{ path("app_lenses") }}">Retour à la liste</a>
+        <a href="{{ path('app_modify_lens', { 'id': lens.id }) }}">Modifier</a></li>
+    </div>
 {% endblock %}

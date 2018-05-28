@@ -4,4 +4,16 @@
 
 {% block body %}
     <h1>Appareils photo</h1>
+
+    <ul>
+        {% for camera in list %}
+            <li><a href="{{ path('app_camera', { 'id': camera.id }) }}">{{ camera.manufacturer.manufacturer ~ " " ~ camera.CameraName }}</a></li>
+        {% endfor %}
+    </ul>
+
+    <a href="{{ path('app_add_new_camera') }}">Ajouter un nouveau appareil</a>
+    <a href="{{ path('app_add_new_category') }}">Ajouter une nouvelle catégorie</a>
+    <a href="{{ path('app_add_new_manufacturer') }}">Ajouter une nouveau fabricant</a>
+    <a href="{{ path('app_add_new_monture') }}">Ajouter une nouvelle monture</a>
+   
 {% endblock %}

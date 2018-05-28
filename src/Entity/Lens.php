@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -19,17 +21,7 @@ class Lens
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $manufacturer;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
     private $name;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $monture;
 
     /**
      * @ORM\Column(type="integer")
@@ -72,30 +64,35 @@ class Lens
     private $diameter_of_filter;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $for_manufacturer;
-
-    /**
      * @ORM\Column(type="text")
      */
     private $description;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\LensManufacturer", inversedBy="lens")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $manufacturer;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Monture", inversedBy="lens")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $monture;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\CamManufacturer", inversedBy="lens")
+     */
+    private $forManufacturer;
+
+    public function __construct()
+    {
+        $this->forManufacturer = new ArrayCollection();
+    }
+
     public function getId()
     {
         return $this->id;
-    }
-
-    public function getManufacturer(): ?string
-    {
-        return $this->manufacturer;
-    }
-
-    public function setManufacturer(string $manufacturer): self
-    {
-        $this->manufacturer = $manufacturer;
-
-        return $this;
     }
 
     public function getName(): ?string
@@ -106,18 +103,6 @@ class Lens
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getMonture(): ?string
-    {
-        return $this->monture;
-    }
-
-    public function setMonture(string $monture): self
-    {
-        $this->monture = $monture;
 
         return $this;
     }
@@ -218,18 +203,6 @@ class Lens
         return $this;
     }
 
-    public function getForManufacturer(): ?string
-    {
-        return $this->for_manufacturer;
-    }
-
-    public function setForManufacturer(string $for_manufacturer): self
-    {
-        $this->for_manufacturer = $for_manufacturer;
-
-        return $this;
-    }
-
     public function getDescription(): ?string
     {
         return $this->description;
@@ -238,6 +211,56 @@ class Lens
     public function setDescription(string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getManufacturer(): ?LensManufacturer
+    {
+        return $this->manufacturer;
+    }
+
+    public function setManufacturer(?LensManufacturer $manufacturer): self
+    {
+        $this->manufacturer = $manufacturer;
+
+        return $this;
+    }
+
+    public function getMonture(): ?Monture
+    {
+        return $this->monture;
+    }
+
+    public function setMonture(?Monture $monture): self
+    {
+        $this->monture = $monture;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CamManufacturer[]
+     */
+    public function getForManufacturer(): Collection
+    {
+        return $this->forManufacturer;
+    }
+
+    public function addForManufacturer(CamManufacturer $forManufacturer): self
+    {
+        if (!$this->forManufacturer->contains($forManufacturer)) {
+            $this->forManufacturer[] = $forManufacturer;
+        }
+
+        return $this;
+    }
+
+    public function removeForManufacturer(CamManufacturer $forManufacturer): self
+    {
+        if ($this->forManufacturer->contains($forManufacturer)) {
+            $this->forManufacturer->removeElement($forManufacturer);
+        }
 
         return $this;
     }

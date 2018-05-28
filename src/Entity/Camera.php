@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -19,27 +21,17 @@ class Camera
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $Manufacturer;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
     private $CameraName;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $Sensor;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $Monture;
+    private $sensor;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $Length;
+    private $length;
 
     /**
      * @ORM\Column(type="integer")
@@ -57,11 +49,6 @@ class Camera
     private $weight;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $images;
-
-    /**
      * @ORM\Column(type="text")
      */
     private $description;
@@ -71,21 +58,31 @@ class Camera
      */
     private $time;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\CamCategory", inversedBy="cameras")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $category;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\CamManufacturer", inversedBy="cameras")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $manufacturer;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Monture", inversedBy="cameras")
+     */
+    private $monture;
+
+    public function __construct()
+    {
+        $this->monture = new ArrayCollection();
+    }
+
     public function getId()
     {
         return $this->id;
-    }
-
-    public function getManufacturer(): ?string
-    {
-        return $this->Manufacturer;
-    }
-
-    public function setManufacturer(string $Manufacturer): self
-    {
-        $this->Manufacturer = $Manufacturer;
-
-        return $this;
     }
 
     public function getCameraName(): ?string
@@ -102,36 +99,24 @@ class Camera
 
     public function getSensor(): ?string
     {
-        return $this->Sensor;
+        return $this->sensor;
     }
 
-    public function setSensor(string $Sensor): self
+    public function setSensor(string $sensor): self
     {
-        $this->Sensor = $Sensor;
-
-        return $this;
-    }
-
-    public function getMonture(): ?string
-    {
-        return $this->Monture;
-    }
-
-    public function setMonture(string $Monture): self
-    {
-        $this->Monture = $Monture;
+        $this->sensor = $sensor;
 
         return $this;
     }
 
     public function getLength(): ?int
     {
-        return $this->Length;
+        return $this->length;
     }
 
-    public function setLength(int $Length): self
+    public function setLength(int $length): self
     {
-        $this->Length = $Length;
+        $this->length = $length;
 
         return $this;
     }
@@ -172,18 +157,6 @@ class Camera
         return $this;
     }
 
-    public function getImages(): ?string
-    {
-        return $this->images;
-    }
-
-    public function setImages(string $images): self
-    {
-        $this->images = $images;
-
-        return $this;
-    }
-
     public function getDescription(): ?string
     {
         return $this->description;
@@ -204,6 +177,56 @@ class Camera
     public function setTime(string $time): self
     {
         $this->time = $time;
+
+        return $this;
+    }
+
+    public function getCategory(): ?CamCategory
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?CamCategory $category): self
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    public function getManufacturer(): ?CamManufacturer
+    {
+        return $this->manufacturer;
+    }
+
+    public function setManufacturer(?CamManufacturer $manufacturer): self
+    {
+        $this->manufacturer = $manufacturer;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Monture[]
+     */
+    public function getMonture(): Collection
+    {
+        return $this->monture;
+    }
+
+    public function addMonture(Monture $monture): self
+    {
+        if (!$this->monture->contains($monture)) {
+            $this->monture[] = $monture;
+        }
+
+        return $this;
+    }
+
+    public function removeMonture(Monture $monture): self
+    {
+        if ($this->monture->contains($monture)) {
+            $this->monture->removeElement($monture);
+        }
 
         return $this;
     }
