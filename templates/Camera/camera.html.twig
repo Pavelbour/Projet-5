@@ -20,5 +20,6 @@
     <div>
         <a href="{{ path("app_cameras") }}">Retour à la liste</a>
         <a href="{{ path('app_modify_camera', { 'id': camera.id }) }}">Modifier</a>
+        <a href="{{ path('app_delete_camera', { 'id': camera.id }) }}">Effacer</a>
     </div>
 {% endblock %}

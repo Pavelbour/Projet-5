@@ -23,6 +23,12 @@ app_modify_camera:
     requirements:
         id: '\d+'
 
+app_delete_camera:
+    path: /delete-camera/{id}
+    controller: App\Controller\CameraController::deleteCamera
+    requirements:
+        id: '\d+'
+
 app_add_new_monture:
     path: /add-new-monture
     controller: App\Controller\MontureController::addMonture
@@ -44,6 +50,12 @@ app_add_new_lens:
 app_modify_lens:
     path: /modify-lens/{id}
     controller: App\Controller\LensController::modifyLens
+    requirements:
+        id: '\d+'
+
+app_delete_lens:
+    path: /delete-lens/{id}
+    controller: App\Controller\LensController::deleteLens
     requirements:
         id: '\d+'
 

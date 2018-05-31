@@ -4,11 +4,8 @@
 
     use Symfony\Bundle\FrameworkBundle\Controller\Controller;
     use Symfony\Component\HttpFoundation\Request;
-    use Symfony\Component\Form\Extension\Core\Type\TextType;
-    use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-    use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-    use Symfony\Bridge\Doctrine\Form\Type\EntityType;
     use App\Entity\Lens;
+    use App\Form\LensType;
 
     class LensController extends Controller
     {
@@ -45,33 +42,8 @@
         {
 
             $lens = new Lens();
-
-            $form = $this->createFormBuilder($lens)
-                ->add('Manufacturer', EntityType::class, array(
-                    'class' => 'App\Entity\LensManufacturer',
-                    'choice_label' => 'manufacturer'
-                ))
-                ->add('Name', TextType::class)
-                ->add('Monture', EntityType::class, array(
-                    'class' => 'App\Entity\Monture',
-                    'choice_label' => 'monture'
-                ))
-                ->add('Length', TextType::class)
-                ->add('Diameter', TextType::class)
-                ->add('Weight', TextType::class)
-                ->add('Focal_length_min', TextType::class)
-                ->add('Focal_length_max', TextType::class)
-                ->add('Focuse', TextType::class)
-                ->add('Aperture', TextType::class)
-                ->add('Diameter_of_filter', TextType::class)
-                ->add('Description', TextareaType::class)
-                ->add('ForManufacturer', EntityType::class, array(
-                    'class' => 'App\Entity\CamManufacturer',
-                    'choice_label' => 'manufacturer',
-                    'multiple' => 'true'
-                ))
-                ->getForm();
-
+            $form = $this->createForm(LensType::class, $lens);
+                
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
@@ -94,39 +66,10 @@
         public function modifyLens(Request $request, $id)
         {
 
-            $em = $this
-                ->getDoctrine()
-                ->getManager();
+            $em = $this->getDoctrine()->getManager();
+            $lens = $em->getRepository(Lens::class)->find($id);
 
-            $lens = $em
-            ->getRepository(Lens::class)
-            ->find($id);
-
-            $form = $this->createFormBuilder($lens)
-                ->add('Manufacturer', EntityType::class, array(
-                    'class' => 'App\Entity\LensManufacturer',
-                    'choice_label' => 'manufacturer'
-                ))
-                ->add('Name', TextType::class)
-                ->add('Monture', EntityType::class, array(
-                    'class' => 'App\Entity\Monture',
-                    'choice_label' => 'monture'
-                ))
-                ->add('Length', TextType::class)
-                ->add('Diameter', TextType::class)
-                ->add('Weight', TextType::class)
-                ->add('Focal_length_min', TextType::class)
-                ->add('Focal_length_max', TextType::class)
-                ->add('Focuse', TextType::class)
-                ->add('Aperture', TextType::class)
-                ->add('Diameter_of_filter', TextType::class)
-                ->add('Description', TextareaType::class)
-                ->add('ForManufacturer', EntityType::class, array(
-                    'class' => 'App\Entity\CamManufacturer',
-                    'choice_label' => 'manufacturer',
-                    'multiple' => 'true'
-                ))
-                ->getForm();
+            $form = $this->createForm(LensType::class, $lens);
 
             $form->handleRequest($request);
 
@@ -143,5 +86,14 @@
                 'title' => 'Ajout d\'un nouveau objectif',
                 'form' => $form->createView()
             ));
+        }
+        
+        public function deleteLens($id)
+        {
+            $em = $this->getDoctrine()->getManager();
+            $lens = $em->getRepository(Lens::class)->find($id);
+            $em->remove($lens);
+            $em->flush();
+            return $this->redirectToRoute('app_lenses');
         }
     }   
