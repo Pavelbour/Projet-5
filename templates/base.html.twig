@@ -16,6 +16,15 @@
                         <a class="nav-link" href="{{ path('app_cameras') }}">Appareils photos</a>
                         <a class="nav-link" href="{{ path('app_lenses') }}">Objectifs</a>
                         <a class="nav-link" href="{{ path('app_forum') }}">Forum</a>
+                        <a class="nav-link" href="{{ path('app_signup') }}">Inscription</a>
+                        <a class="nav-link" href="{{ path('login') }}">Connexion</a>
+                        <a class="nav-link" href="{{ path('logout') }}">Déconnexion</a>
+                        {% if is_granted('ROLE_USER') %}
+                            <a class="nav-link" href="{{ path('app_user') }}">Espace Utilisateur</a>
+                        {% endif %}
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a class="nav-link" href="{{ path('app_admin') }}">Espace admin</a>
+                        {% endif %}
                     </nav>
                 </div>
                 <div class="col-lg-9">

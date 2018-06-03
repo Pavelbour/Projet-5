@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste d'utilisateurs{% endblock %}
+
+{% block body %}
+    <h1>Utilisateurs</h1>
+
+    <ul>
+        {% for user in list %}
+            <li>
+                {{ user.username }}
+                <a class="btn btn-sm btn-primary" href="{{ path('app_modify_user', {'id': user.id}) }}">Modifier</a>
+                <a class="btn btn-sm btn-primary" href="{{ path('app_set_admin', {'id': user.id}) }}">Rendre Administrateur</a>
+                <a class="btn btn-sm btn-danger" href="{{ path('app_delete_user', {'id': user.id}) }}">Effacer</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

@@ -1,7 +1,55 @@
 #index:
+app_signup:
+    path: /sign-up
+    controller: App\Controller\UserController::addUser
+
+login:
+    path: /login
+    controller: App\Controller\SecurityController::login
+
+login_check:
+    path: /login_check
+
+logout:
+    path: /logout
+    
 app_home:
     path: /
     controller: App\Controller\HomeController::home
+
+app_admin:
+    path: /admin
+    controller: App\Controller\HomeController::admin
+
+app_list_of_users:
+    path: /admin/users
+    controller: App\Controller\UserController::users
+
+app_user:
+    path: /user
+    controller: App\Controller\HomeController::user
+
+app_modify_user:
+    path: /user/modify/{id}
+    controller: App\Controller\UserController::modifyUser
+    requirements:
+        id: '\d+'
+
+app_modify_carrent_user:
+    path: /user/modify/carrent-user
+    controller: App\Controller\UserController::modifyCurrentUser
+
+app_set_admin:
+    path: /admin/set-admin/{id}
+    controller: App\Controller\UserController::setAdmin
+    requirements:
+        id: '\d+'
+
+app_delete_user:
+    path: /admin/delete-user/{id}
+    controller: App\Controller\UserController::deleteUser
+    requirements:
+        id: '\d+'
 
 app_cameras:
     path: /cameras

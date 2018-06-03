@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Espase Utilisateur{% endblock %}
+
+{% block body %}
+    <h1>Espace Utilisateur</h1>
+    <div>Vous êtes: {{ app.user.username }}</div>
+    <div>Votre e-mail : {{ app.user.email }}</div>
+    <a class="btn sm-btn btn-primary" href="{{ path('app_modify_carrent_user') }}">Modifiér mon profil</a>
+{% endblock %}
