@@ -22,4 +22,14 @@
         <a href="{{ path('app_modify_camera', { 'id': camera.id }) }}">Modifier</a>
         <a href="{{ path('app_delete_camera', { 'id': camera.id }) }}">Effacer</a>
     </div>
+
+    {{ form_start(form) }}
+    {{ form_end(form) }}
+
+    <ul>
+    {% for comment in comments %}
+        <li>{{ comment.userId.username }}{{ comment.comment }}</li>
+    {% endfor %}
+    </ul>
+
 {% endblock %}

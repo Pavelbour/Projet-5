@@ -75,9 +75,15 @@ class Camera
      */
     private $monture;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CameraComment", mappedBy="cameraId", orphanRemoval=true)
+     */
+    private $cameraComments;
+
     public function __construct()
     {
         $this->monture = new ArrayCollection();
+        $this->cameraComments = new ArrayCollection();
     }
 
     public function getId()
@@ -226,6 +232,37 @@ class Camera
     {
         if ($this->monture->contains($monture)) {
             $this->monture->removeElement($monture);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CameraComment[]
+     */
+    public function getCameraComments(): Collection
+    {
+        return $this->cameraComments;
+    }
+
+    public function addCameraComment(CameraComment $cameraComment): self
+    {
+        if (!$this->cameraComments->contains($cameraComment)) {
+            $this->cameraComments[] = $cameraComment;
+            $cameraComment->setCameraId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCameraComment(CameraComment $cameraComment): self
+    {
+        if ($this->cameraComments->contains($cameraComment)) {
+            $this->cameraComments->removeElement($cameraComment);
+            // set the owning side to null (unless already changed)
+            if ($cameraComment->getCameraId() === $this) {
+                $cameraComment->setCameraId(null);
+            }
         }
 
         return $this;

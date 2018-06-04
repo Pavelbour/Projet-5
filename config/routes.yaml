@@ -30,7 +30,7 @@ app_user:
     controller: App\Controller\HomeController::user
 
 app_modify_user:
-    path: /user/modify/{id}
+    path: /admin/modify/{id}
     controller: App\Controller\UserController::modifyUser
     requirements:
         id: '\d+'

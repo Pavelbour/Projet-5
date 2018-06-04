@@ -5,6 +5,8 @@
     use Symfony\Bundle\FrameworkBundle\Controller\Controller;
     use Symfony\Component\HttpFoundation\Request;
     use App\Entity\Camera;
+    use App\Entity\CameraComment;
+    use App\Form\CameraCommentType;
     use App\Form\CameraType;
 
     class CameraController extends Controller
@@ -24,7 +26,7 @@
             ));
         }
 
-        public function camera($id)
+        public function camera(Request $request, $id)
         {
             $repository = $this
             ->getDoctrine()
@@ -32,9 +34,36 @@
             ->getRepository(Camera::class);
 
             $camera = $repository->find($id);
+            $comment = new CameraComment;
+            $form = $this->createForm(CameraCommentType::class, $comment);
+
+            $form->handleRequest($request);
+
+            $comments = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository(CameraComment::class)
+            ->findByCameraId($camera);
+
+            if ($form->isSubmitted() && $form->isValid() && $this->getUser()) {
+
+                $em = $this->getDoctrine()->getManager();
+                $comment->setCameraId($camera);
+                $comment->setUserId($this->getUser());
+                $date = new \DateTime();
+                $comment->setAdded($date);
+                $em->persist($comment);
+                $em->flush();
+
+                return $this->redirectToRoute('app_camera', array(
+                    'id' => $id
+                ));
+            }
 
             return $this->render('Camera/camera.html.twig', array(
-                'camera' => $camera
+                'camera' => $camera,
+                'comments' => $comments,
+                'form' => $form->createView()
             ));
         }
 
