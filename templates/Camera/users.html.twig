@@ -5,9 +5,9 @@
 {% block body %}
     <h1>Utilisateurs</h1>
 
-    <ul>
+    <ul class="list-group">
         {% for user in list %}
-            <li>
+            <li class="list-group-item">
                 {{ user.username }}
                 <a class="btn btn-sm btn-primary" href="{{ path('app_modify_user', {'id': user.id}) }}">Modifier</a>
                 <a class="btn btn-sm btn-primary" href="{{ path('app_set_admin', {'id': user.id}) }}">Rendre Administrateur</a>

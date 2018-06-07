@@ -4,13 +4,28 @@
 
 {% block body %}
     <h1>Objectifs pour les appareils photo</h1>
-
-    <ul>
+    <div class="row">
         {% for lens in list %}
-            <li><a href="{{ path('app_lens', { 'id': lens.id }) }}">{{ lens.manufacturer.manufacturer ~ " " ~ lens.name }}</a></li>
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            {{ lens.manufacturer.manufacturer ~ " " ~ lens.name }}
+                        </h5>
+                        <p class="card-text">
+                            {{ lens.description }}
+                        </p>
+                        <a class="btn btn-warning" href="{{ path('app_lens', { 'id': lens.id }) }}">
+                            En savoir plus
+                        </a>
+                    </div>
+                </div>
+            </div>
         {% endfor %}
-    </ul>
+    </div>
+{% endblock %}
 
-    <a href="{{ path('app_add_new_lens_manufacturer') }}">Ajouter un nouveau fabricant d'objectifs</a>
-    <a href="{{ path('app_add_new_lens') }}">Ajouter un nouveau objectif</a>
+{% block menu %}
+    <a class="nav-link text-warning" href="{{ path('app_add_new_lens_manufacturer') }}">Ajouter un nouveau fabricant d'objectifs</a>
+    <a class="nav-link text-warning" href="{{ path('app_add_new_lens') }}">Ajouter un nouveau objectif</a>
 {% endblock %}

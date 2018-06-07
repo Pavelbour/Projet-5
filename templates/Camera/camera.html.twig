@@ -3,8 +3,27 @@
 {% block title %}{{ camera.manufacturer.manufacturer ~ " " ~ camera.CameraName }}{% endblock %}
 
 {% block body %}
-    <h1>{{ camera.manufacturer.manufacturer ~ " " ~ camera.CameraName }}</h1>
-    <div>
+    <div class="row justify-content-between mt-2">
+        <div class="col-lg-2">
+            <a  class="btn btn-sm btn-warning" href="{{ path("app_cameras") }}">Retour à la liste</a>
+        </div>
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+            <div class="col-lg-2">
+                <a class="btn btn-sm btn-warning" href="{{ path('app_modify_camera', { 'id': camera.id }) }}">Modifier</a>
+                <a class="btn btn-sm btn-danger" href="{{ path('app_delete_camera', { 'id': camera.id }) }}">Effacer</a>
+            </div>
+        {% endif %}
+    </div>
+    <div class="row justify-content-center">
+            <h1>{{ camera.manufacturer.manufacturer ~ " " ~ camera.CameraName }}</h1>
+        
+    </div>
+    <div class="row justify-content-center">
+        <div>
+            <img src="../img/{{ camera.manufacturer.manufacturer }}/{{ camera.CameraName }}/camera.jpg" />
+        </div>
+    </div>
+    <div class="row justify-content-center">
         {{ camera.category.category }}
         {{ camera.sensor }}
         {% for monture in camera.monture %}
@@ -17,19 +36,21 @@
         {{ camera.time }}
         {{ camera.description }}
     </div>
-    <div>
-        <a href="{{ path("app_cameras") }}">Retour à la liste</a>
-        <a href="{{ path('app_modify_camera', { 'id': camera.id }) }}">Modifier</a>
-        <a href="{{ path('app_delete_camera', { 'id': camera.id }) }}">Effacer</a>
+    <div class="row">
+        <div class="col-12">
+            {{ form_start(form) }}
+            {{ form_end(form) }}
+        </div>
     </div>
-
-    {{ form_start(form) }}
-    {{ form_end(form) }}
-
-    <ul>
-    {% for comment in comments %}
-        <li>{{ comment.userId.username }}{{ comment.comment }}</li>
-    {% endfor %}
-    </ul>
-
+    <div class="row">
+        <ul class="list-group col-12">
+        {% for comment in comments %}
+            <li class="list-group-item">
+                <h6>{{ comment.userId.username }}</h6>
+                <div>{{ comment.comment }}</div>
+                <div><i>{{ "Ajouté le " ~ comment.added|date('Y-m-d') ~ " à " ~ comment.added|date('H:m:s')}}</i></div>
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
 {% endblock %}

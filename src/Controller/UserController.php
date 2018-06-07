@@ -3,12 +3,14 @@
 
     use Symfony\Bundle\FrameworkBundle\Controller\Controller;
     use Symfony\Component\HttpFoundation\Request;
+    use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
     use App\Entity\User;
     use App\Form\UserType;
 
     class UserController extends Controller
     {
-        public function addUser(Request $request)
+
+        public function addUser(Request $request, UserPasswordEncoderInterface $encoder)
         {
 
             $user = new User();
@@ -19,8 +21,10 @@
 
             $form->handleRequest($request);
 
-            if ($form->isSubmitted() && $form->isValid() && $user->getPassword() == $form->get('confirmation')->getData()) {
+            if ($form->isSubmitted() && $form->isValid() && $form->get('password')->getData() == $form->get('confirmation')->getData()) {
 
+                $encoded = $encoder->encodePassword($user, $form->get('password')->getData());
+                $user->setPassword($encoded);
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($user);
                 $em->flush();

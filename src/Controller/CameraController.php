@@ -20,7 +20,6 @@
 
             $listCameras = $repository->findAll();
 
-
             return $this->render('Camera/cameras.html.twig', array(
                 'list' => $listCameras
             ));

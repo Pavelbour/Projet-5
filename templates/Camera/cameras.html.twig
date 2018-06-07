@@ -5,15 +5,25 @@
 {% block body %}
     <h1>Appareils photo</h1>
 
-    <ul>
+    <div class="row">
         {% for camera in list %}
-            <li><a href="{{ path('app_camera', { 'id': camera.id }) }}">{{ camera.manufacturer.manufacturer ~ " " ~ camera.CameraName }}</a></li>
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="cart-title">{{ camera.manufacturer.manufacturer ~ " " ~ camera.CameraName }}</h5>
+                        <p class="card-text">{{ camera.description }}</p>
+                        <a href="{{ path('app_camera', { 'id': camera.id }) }}" class="btn btn-warning">En savoir plus</a>
+                    </div>
+                </div>
+            </div>
         {% endfor %}
-    </ul>
-
-    <a href="{{ path('app_add_new_camera') }}">Ajouter un nouveau appareil</a>
-    <a href="{{ path('app_add_new_category') }}">Ajouter une nouvelle catégorie</a>
-    <a href="{{ path('app_add_new_manufacturer') }}">Ajouter une nouveau fabricant</a>
-    <a href="{{ path('app_add_new_monture') }}">Ajouter une nouvelle monture</a>
+    </div>
    
+{% endblock %}
+
+{% block menu %}
+    <a class="nav-link text-warning" href="{{ path('app_add_new_camera') }}">Ajouter un nouveau appareil</a>
+    <a class="nav-link text-warning" href="{{ path('app_add_new_category') }}">Ajouter une nouvelle catégorie</a>
+    <a class="nav-link text-warning" href="{{ path('app_add_new_manufacturer') }}">Ajouter une nouveau fabricant</a>
+    <a class="nav-link text-warning" href="{{ path('app_add_new_monture') }}">Ajouter une nouvelle monture</a>
 {% endblock %}
