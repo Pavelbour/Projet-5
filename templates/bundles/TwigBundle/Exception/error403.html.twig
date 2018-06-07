@@ -1,0 +1,15 @@
+{# templates/bundles/TwigBundle/Exception/error404.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-12 mt-2">
+            <div class="alert alert-danger">
+                Pour acceder à cette page, vous devez être connecté en tant qu'admin.
+            </div>
+            <div>
+                <a class="btn btn-primary" href="{{ path('app_home') }}">Retour à la page d'acceuil</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
