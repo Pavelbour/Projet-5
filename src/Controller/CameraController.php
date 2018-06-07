@@ -53,6 +53,7 @@
                 $comment->setAdded($date);
                 $em->persist($comment);
                 $em->flush();
+                $request->getSession()->getFlashBag()->add('info', 'Le commentaire a été publié');
 
                 return $this->redirectToRoute('app_camera', array(
                     'id' => $id
@@ -79,6 +80,7 @@
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($camera);
                 $em->flush();
+                $request->getSession()->getFlashBag()->add('info', 'L\'appareil a été ajouté');
 
                 return $this->redirectToRoute('app_camera', array(
                     'id' => $camera->getId()
@@ -102,6 +104,7 @@
             if ($form->isSubmitted() && $form->isValid()) {
 
                 $em->flush();
+                $request->getSession()->getFlashBag()->add('info', 'L\'appareil a été modifié');
 
                 return $this->redirectToRoute('app_camera', array(
                     'id' => $camera->getId()
@@ -114,12 +117,13 @@
             ));
         }
 
-        public function deleteCamera($id)
+        public function deleteCamera(Request $request, $id)
         {
             $em = $this->getDoctrine()->getManager();
             $camera = $em->getRepository(Camera::class)->find($id);
             $em->remove($camera);
             $em->flush();
+            $request->getSession()->getFlashBag()->add('info', 'L\'appareil a été effacé');
             return $this->redirectToRoute('app_cameras');
         }
     }

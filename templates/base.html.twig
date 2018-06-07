@@ -16,19 +16,28 @@
                             <a class="nav-link text-warning" href="{{ path('app_cameras') }}">Appareils photos</a>
                             <a class="nav-link text-warning" href="{{ path('app_lenses') }}">Objectifs</a>
                             <a class="nav-link text-warning" href="{{ path('app_forum') }}">Forum</a>
-                            {% block menu %}{% endblock %}
-                            <a class="nav-link text-warning" href="{{ path('app_signup') }}">Inscription</a>
-                            <a class="nav-link text-warning" href="{{ path('login') }}">Connexion</a>
-                            <a class="nav-link text-warning" href="{{ path('logout') }}">Déconnexion</a>
-                            {% if is_granted('ROLE_USER') %}
-                                <a class="nav-link text-warning" href="{{ path('app_user') }}">Espace Utilisateur</a>
+                            {% block menu %}{% endblock %}                            
+                            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}                               
+                                <a class="nav-link text-warning" href="{{ path('logout') }}">Déconnexion</a>
+                            {% else %}
+                                <a class="nav-link text-warning" href="{{ path('login') }}">Connexion</a>
+                                <a class="nav-link text-warning" href="{{ path('app_signup') }}">Inscription</a>
                             {% endif %}
                             {% if is_granted('ROLE_ADMIN') %}
                                 <a class="nav-link text-warning" href="{{ path('app_admin') }}">Espace admin</a>
+                            {% elseif is_granted('ROLE_USER') %}
+                                <a class="nav-link text-warning" href="{{ path('app_user') }}">Espace Utilisateur</a>
                             {% endif %}
                         </nav>
                 </div>
-                <div class="col-lg-10"> 
+                <div class="col-lg-10">
+                        <div class="row">
+                            <div col-12>
+                                {% for message in app.session.flashbag.get('info') %}
+                                    <div class="alert alert-success">{{ message }}</div>
+                                {% endfor %}
+                            </div>
+                        </div> 
                         {% block body %}{% endblock %}
                         {% block javascripts %}
                             <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

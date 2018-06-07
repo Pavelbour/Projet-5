@@ -51,6 +51,7 @@
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($lens);
                 $em->flush();
+                $request->getSession()->getFlashBag()->add('info', 'L\'objectif a été ajouté');
 
                 return $this->redirectToRoute('app_lens', array(
                     'id' => $lens->getId()
@@ -76,6 +77,7 @@
             if ($form->isSubmitted() && $form->isValid()) {
 
                 $em->flush();
+                $request->getSession()->getFlashBag()->add('info', 'L\'objectif a été modifié');
 
                 return $this->redirectToRoute('app_lens', array(
                     'id' => $lens->getId()
@@ -88,12 +90,13 @@
             ));
         }
         
-        public function deleteLens($id)
+        public function deleteLens(Request $request, $id)
         {
             $em = $this->getDoctrine()->getManager();
             $lens = $em->getRepository(Lens::class)->find($id);
             $em->remove($lens);
             $em->flush();
+            $request->getSession()->getFlashBag()->add('info', 'L\'objectif a été effacé');
             return $this->redirectToRoute('app_lenses');
         }
     }   

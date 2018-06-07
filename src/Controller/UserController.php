@@ -28,6 +28,7 @@
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($user);
                 $em->flush();
+                $request->getSession()->getFlashBag()->add('info', 'Maintenant, vous êtes inscrit*e');
 
                 return $this->redirectToRoute('app_home');
             }
@@ -64,6 +65,7 @@
             if ($form->isSubmitted() && $form->isValid() && $user->getPassword() == $form->get('confirmation')->getData()) {
 
                 $em->flush();
+                $request->getSession()->getFlashBag()->add('info', 'Le profil a été modifié');
 
                 return $this->redirectToRoute('app_user');
             }
@@ -85,6 +87,7 @@
                 if ($form->isSubmitted() && $form->isValid() && $user->getPassword() == $form->get('confirmation')->getData()) {
                     $em->persist($user);
                     $em->flush();
+                    $request->getSession()->getFlashBag()->add('info', 'Votre profil a été modifié');
 
                     return $this->redirectToRoute('app_user');
                 }
@@ -98,22 +101,24 @@
             }
         }
 
-        public function setAdmin($id)
+        public function setAdmin(Request $request, $id)
         {
             $em = $this->getDoctrine()->getManager();
             $user = $em->getRepository(User::class)->find($id);
             $user->setRoles(array('ROLE_ADMIN'));
             $em->flush();
+            $request->getSession()->getFlashBag()->add('info', 'L\'utilisateur est devenu administrateur');
 
             return $this->redirectToRoute('app_list_of_users');
         }
 
-        public function deleteUser($id)
+        public function deleteUser(Request $request, $id)
         {
             $em = $this->getDoctrine()->getManager();
             $user = $em->getRepository(User::class)->find($id);
             $em->remove($user);
             $em->flush();
+            $request->getSession()->getFlashBag()->add('info', 'Le profil de l\'utilisateur a été effacé');
             return $this->redirectToRoute('app_list_of_users');
         }
     }
