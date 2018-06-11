@@ -3,8 +3,16 @@
 {% block title %}Espase Utilisateur{% endblock %}
 
 {% block body %}
-    <h1>Espace Utilisateur</h1>
-    <div>Vous êtes: {{ app.user.username }}</div>
-    <div>Votre e-mail : {{ app.user.email }}</div>
-    <a class="btn sm-btn btn-primary" href="{{ path('app_modify_carrent_user') }}">Modifiér mon profil</a>
+    <div class="row">
+        <h1 class="col-12">Tableau de bord</h1>
+    </div>
+    <div class="row">
+        <div class="col-lg-3 card text-center">
+            <div class="card-body">
+                <h5 class="card-title">{{ app.user.username }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ app.user.email }}</div>
+                <a class="btn sm-btn btn-primary mb-2" href="{{ path('app_modify_carrent_user') }}">Modifiér mon profil</a>
+            </div>
+        </div>
+    </div>
 {% endblock %}

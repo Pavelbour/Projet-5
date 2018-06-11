@@ -3,5 +3,46 @@
 {% block title %}Bienvenu sur CaméraDatabase{% endblock %}
 
 {% block body %}
-    <h1>CaméraDatabase</h1>
+    <div class="row">
+        <h1 class="col-12">CaméraDatabase</h1>
+    </div>
+    <div class="row border-bottom mb-2">
+        <h3 class="col-12">Les derniers appareils</h3>
+    </div>
+    <div class="row">
+        {% for camera in cameras %}
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="card text-center">
+                    <img class="card-img-top" src="img/{{ camera.manufacturer.manufacturer }}/{{ camera.CameraName }}/camera.jpg" />
+                    <div class="card-body">
+                        <h5 class="cart-title">{{ camera.manufacturer.manufacturer ~ " " ~ camera.CameraName }}</h5>
+                        <p class="card-text">{{ camera.description }}</p>
+                        <a href="{{ path('app_camera', { 'id': camera.id }) }}" class="btn btn-warning">En savoir plus</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="row border-bottom mb-2">
+        <h3 class="col-12">Les derniers objectifs</h3>
+    </div>
+    <div class="row">
+        {% for lens in lenses %}
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            {{ lens.manufacturer.manufacturer ~ " " ~ lens.name }}
+                        </h5>
+                        <p class="card-text">
+                            {{ lens.description }}
+                        </p>
+                        <a class="btn btn-warning" href="{{ path('app_lens', { 'id': lens.id }) }}">
+                            En savoir plus
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

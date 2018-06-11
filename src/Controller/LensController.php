@@ -5,6 +5,8 @@
     use Symfony\Bundle\FrameworkBundle\Controller\Controller;
     use Symfony\Component\HttpFoundation\Request;
     use App\Entity\Lens;
+    use App\Entity\LensComment;
+    use App\Form\LensCommentType;
     use App\Form\LensType;
 
     class LensController extends Controller
@@ -24,7 +26,7 @@
             ));
         }
 
-        public function lens($id)
+        public function lens(Request $request, $id)
         {
             $repository = $this
             ->getDoctrine()
@@ -32,9 +34,37 @@
             ->getRepository(Lens::class);
 
             $lens = $repository->find($id);
+            $comment = new LensComment;
+            $form = $this->createForm(LensCommentType::class, $comment);
+
+            $form->handleRequest($request);
+
+            $comments = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository(LensComment::class)
+            ->findByLensId($lens);
+
+            if ($form->isSubmitted() && $form->isValid() && $this->getUser()) {
+
+                $em = $this->getDoctrine()->getManager();
+                $comment->setLensId($lens);
+                $comment->setUserId($this->getUser());
+                $date = new \DateTime();
+                $comment->setAdded($date);
+                $em->persist($comment);
+                $em->flush();
+                $request->getSession()->getFlashBag()->add('info', 'Le commentaire a été publié');
+
+                return $this->redirectToRoute('app_lens', array(
+                    'id' => $id
+                ));
+            }
 
             return $this->render('Camera/lens.html.twig', array(
-                'lens' => $lens
+                'lens' => $lens,
+                'comments' => $comments,
+                'form' => $form->createView()
             ));
         }
 

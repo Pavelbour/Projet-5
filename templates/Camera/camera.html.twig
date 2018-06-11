@@ -5,7 +5,7 @@
 {% block body %}
     <div class="row justify-content-between mt-2">
         <div class="col-lg-2">
-            <a  class="btn btn-sm btn-warning" href="{{ path("app_cameras") }}">Retour à la liste</a>
+            <a  class="btn btn-sm btn-warning" href="{{ path('app_cameras_page', { 'id': 1 }) }}">Retour à la liste</a>
         </div>
         {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
             <div class="col-lg-2">
@@ -18,24 +18,26 @@
             <h1>{{ camera.manufacturer.manufacturer ~ " " ~ camera.CameraName }}</h1>
         
     </div>
-    <div class="row justify-content-center">
-        <div>
+    <div class="row justify-content-between">
+        <div class="col-md-4">
+            <div class="col-12"><span class="font-weight-bold">Type : </span>{{ camera.category.category }}</div>
+            <div class="col-12"><span class="font-weight-bold">Capteur : </span>{{ camera.sensor }}</div>
+            {% for monture in camera.monture %}
+                <div class="col-12"><span class="font-weight-bold">Monture : </span>{{ monture.monture }}</div>
+            {% endfor %}
+            <div class="col-12"><span class="font-weight-bold">Longueur : </span>{{ camera.Length }}</div>
+            <div class="col-12"><span class="font-weight-bold">Largeur : </span>{{ camera.width }}</div>
+            <div class="col-12"><span class="font-weight-bold">Hauteur : </span>{{ camera.height }}</div>
+            <div class="col-12"><span class="font-weight-bold">Poids : </span>{{ camera.weight }}</div>
+            <div class="col-12"><span class="font-weight-bold">Exposition : </span>{{ camera.time }}</div>
+        </div>
+        <div class="col-md-4">
             <img src="../img/{{ camera.manufacturer.manufacturer }}/{{ camera.CameraName }}/camera.jpg" />
         </div>
     </div>
     <div class="row justify-content-center">
-        {{ camera.category.category }}
-        {{ camera.sensor }}
-        {% for monture in camera.monture %}
-            {{ monture.monture }}
-        {% endfor %}
-        {{ camera.Length }}
-        {{ camera.width }}
-        {{ camera.height }}
-        {{ camera.weight }}
-        {{ camera.time }}
-        {{ camera.description }}
-    </div>
+            {{ camera.description }}
+        </div>
     <div class="row">
         <div class="col-12">
             {{ form_start(form) }}

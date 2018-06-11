@@ -55,6 +55,12 @@ app_cameras:
     path: /cameras
     controller: App\Controller\CameraController::home
 
+app_cameras_page:
+    path: /cameras/page/{id}
+    controller: App\Controller\CameraController::camerasPage
+    requirements:
+        id: '\d+'
+
 app_camera:
     path: /camera/{id}
     controller: App\Controller\CameraController::camera

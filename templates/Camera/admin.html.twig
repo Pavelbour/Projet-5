@@ -3,6 +3,45 @@
 {% block title %}Espase Admin{% endblock %}
 
 {% block body %}
-    <h1>Espace Admin</h1>
-    <a href="{{ path('app_list_of_users') }}">La liste des utilisateurs</a>
+    <div class="row">
+        <h1 class="col-12">Tableau de bord : Admin</h1>
+    </div>
+    <div class="row">
+        <div class="col-lg-3 col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">{{ app.user.username }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ app.user.email }}</h6>
+                    <a class="btn sm-btn btn-primary mb-2" href="{{ path('app_modify_carrent_user') }}">Modifiér mon profil</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Utilisateurs</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Sur ce site il y a  {{ usersNumber.0.t }} utilisateurs</h6>
+                    <a  class="btn sm-btn btn-primary mb-2" href="{{ path('app_list_of_users') }}">La liste des utilisateurs</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Appareils photo</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Sur ce site il y a {{ camerasNumber.0.t }} appareils photo</h6>
+                    <a  class="btn sm-btn btn-primary mb-2" href="{{ path('app_cameras') }}">La rubrique appareils photo</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Objectifs</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Sur ce site il y a  {{ lensesNumber.0.t }} objectifs</h6>
+                    <a  class="btn sm-btn btn-primary mb-2" href="{{ path('app_lenses') }}">La rubrique objectifs</a>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

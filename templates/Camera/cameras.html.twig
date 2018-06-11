@@ -9,6 +9,7 @@
         {% for camera in list %}
             <div class="col-lg-3 col-md-4 col-sm-6">
                 <div class="card text-center">
+                    <img class="card-img-top" src="img/{{ camera.manufacturer.manufacturer }}/{{ camera.CameraName }}/camera.jpg" />
                     <div class="card-body">
                         <h5 class="cart-title">{{ camera.manufacturer.manufacturer ~ " " ~ camera.CameraName }}</h5>
                         <p class="card-text">{{ camera.description }}</p>
@@ -18,7 +19,17 @@
             </div>
         {% endfor %}
     </div>
-   
+    <div class="row justify-content-end mt-2">
+        <nav class="col-2">
+            <ul class="pagination">
+                <li class="page-item"><a class="page-link" href="{{ path('app_cameras_page', { 'id': 1 }) }}"><span>&laquo;</span></a><li>
+                <li class="page-item"><a class="page-link" href="{{ path('app_cameras_page', { 'id': ( id - 1 )}) }}">{{ (id - 1) }}</a><li>
+                <li class="page-item"><a class="page-link" href="{{ path('app_cameras_page', { 'id': id }) }}">{{ id }}</a><li>
+                <li class="page-item"><a class="page-link" href="{{ path('app_cameras_page', { 'id': ( id + 1) }) }}">{{ (id + 1) }}</a><li>
+                <li class="page-item"><a class="page-link"><span>&raquo;<span></a></li>
+            </ul>
+        </nav>
+    </div>
 {% endblock %}
 
 {% block menu %}

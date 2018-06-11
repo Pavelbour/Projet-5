@@ -19,6 +19,14 @@ class CameraRepository extends ServiceEntityRepository
         parent::__construct($registry, Camera::class);
     }
 
+    public function getNumber()
+    {
+        return $this
+            ->_em
+            ->createQuery('SELECT COUNT(c) t FROM App\Entity\Camera c')
+            ->getResult();
+    }
+
 //    /**
 //     * @return Camera[] Returns an array of Camera objects
 //     */

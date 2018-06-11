@@ -2,33 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Lens;
+use App\Entity\LensComment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method Lens|null find($id, $lockMode = null, $lockVersion = null)
- * @method Lens|null findOneBy(array $criteria, array $orderBy = null)
- * @method Lens[]    findAll()
- * @method Lens[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method LensComment|null find($id, $lockMode = null, $lockVersion = null)
+ * @method LensComment|null findOneBy(array $criteria, array $orderBy = null)
+ * @method LensComment[]    findAll()
+ * @method LensComment[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class LensRepository extends ServiceEntityRepository
+class LensCommentRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, Lens::class);
-    }
-
-    public function getNumber()
-    {
-        return $this
-            ->_em
-            ->createQuery('SELECT COUNT(l) t FROM App\Entity\Lens l')
-            ->getResult();
+        parent::__construct($registry, LensComment::class);
     }
 
 //    /**
-//     * @return Lens[] Returns an array of Lens objects
+//     * @return LensComment[] Returns an array of LensComment objects
 //     */
     /*
     public function findByExampleField($value)
@@ -45,7 +37,7 @@ class LensRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Lens
+    public function findOneBySomeField($value): ?LensComment
     {
         return $this->createQueryBuilder('l')
             ->andWhere('l.exampleField = :val')

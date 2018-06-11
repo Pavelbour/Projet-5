@@ -85,9 +85,15 @@ class Lens
      */
     private $forManufacturer;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\LensComment", mappedBy="lensId", orphanRemoval=true)
+     */
+    private $lensComments;
+
     public function __construct()
     {
         $this->forManufacturer = new ArrayCollection();
+        $this->lensComments = new ArrayCollection();
     }
 
     public function getId()
@@ -260,6 +266,37 @@ class Lens
     {
         if ($this->forManufacturer->contains($forManufacturer)) {
             $this->forManufacturer->removeElement($forManufacturer);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|LensComment[]
+     */
+    public function getLensComments(): Collection
+    {
+        return $this->lensComments;
+    }
+
+    public function addLensComment(LensComment $lensComment): self
+    {
+        if (!$this->lensComments->contains($lensComment)) {
+            $this->lensComments[] = $lensComment;
+            $lensComment->setLensId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLensComment(LensComment $lensComment): self
+    {
+        if ($this->lensComments->contains($lensComment)) {
+            $this->lensComments->removeElement($lensComment);
+            // set the owning side to null (unless already changed)
+            if ($lensComment->getLensId() === $this) {
+                $lensComment->setLensId(null);
+            }
         }
 
         return $this;

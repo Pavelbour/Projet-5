@@ -50,9 +50,15 @@ class User implements UserInterface, \Serializable
      */
     private $cameraComments;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\LensComment", mappedBy="userId", orphanRemoval=true)
+     */
+    private $lensComments;
+
     public function __construct()
     {
         $this->cameraComments = new ArrayCollection();
+        $this->lensComments = new ArrayCollection();
     }
 
     public function getId()
@@ -170,6 +176,37 @@ class User implements UserInterface, \Serializable
             // set the owning side to null (unless already changed)
             if ($cameraComment->getUserId() === $this) {
                 $cameraComment->setUserId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|LensComment[]
+     */
+    public function getLensComments(): Collection
+    {
+        return $this->lensComments;
+    }
+
+    public function addLensComment(LensComment $lensComment): self
+    {
+        if (!$this->lensComments->contains($lensComment)) {
+            $this->lensComments[] = $lensComment;
+            $lensComment->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLensComment(LensComment $lensComment): self
+    {
+        if ($this->lensComments->contains($lensComment)) {
+            $this->lensComments->removeElement($lensComment);
+            // set the owning side to null (unless already changed)
+            if ($lensComment->getUserId() === $this) {
+                $lensComment->setUserId(null);
             }
         }
 

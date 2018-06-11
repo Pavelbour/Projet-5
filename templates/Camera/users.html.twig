@@ -4,7 +4,7 @@
 
 {% block body %}
     <h1>Utilisateurs</h1>
-
+    <a class="btn btn-primary btn-sm mb-2" href="{{ path('app_admin') }}">Retourn au tableau de bord</a>
     <ul class="list-group">
         {% for user in list %}
             <li class="list-group-item">

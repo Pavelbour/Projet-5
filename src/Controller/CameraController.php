@@ -25,6 +25,30 @@
             ));
         }
 
+        public function camerasPage($id)
+        {
+            $repository = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository(Camera::class);
+
+            $listCameras = $repository->findBy(
+                array(),
+                array('id' => 'desc'),
+                5,
+                ($id-1)*5
+            );
+
+            if ($id == 1) {
+                $id = 2;
+            }
+
+            return $this->render('Camera/cameras.html.twig', array(
+                'list' => $listCameras,
+                'id' => $id
+            ));
+        }
+
         public function camera(Request $request, $id)
         {
             $repository = $this

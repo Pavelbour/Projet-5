@@ -13,7 +13,7 @@
                 <div class="col-lg-2">   
                         <nav class="nav flex-column bg-dark">                       
                             <a class="nav-link text-warning" href="{{ path('app_home') }}">Acceuil</a>
-                            <a class="nav-link text-warning" href="{{ path('app_cameras') }}">Appareils photos</a>
+                            <a class="nav-link text-warning" href="{{ path('app_cameras_page', { 'id': 1 }) }}">Appareils photos</a>
                             <a class="nav-link text-warning" href="{{ path('app_lenses') }}">Objectifs</a>
                             <a class="nav-link text-warning" href="{{ path('app_forum') }}">Forum</a>
                             {% block menu %}{% endblock %}                            
