@@ -8,22 +8,28 @@
     use App\Entity\LensComment;
     use App\Form\LensCommentType;
     use App\Form\LensType;
+    use App\Form\LensFilterType;
 
     class LensController extends Controller
     {
-        public function lensesPage($id)
+        public function lensesPage(Request $request, $id)
         {
+            $lens = new Lens();
             $repository = $this
             ->getDoctrine()
             ->getManager()
             ->getRepository(Lens::class);
 
-            $listLenses = $repository->findBy(
-                array(),
-                array('id' => 'desc'),
-                5,
-                ($id-1)*5
-            );
+            $form = $this->createForm(LensFilterType::class, $lens);
+
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $listLenses = $repository->filter($id, $lens->getManufacturer(), $lens->getMonture());
+
+            } else {
+                $listLenses = $repository->filter($id);
+            }
 
             if ($id == 1) {
                 $id = 2;
@@ -31,7 +37,8 @@
 
             return $this->render('Camera/lenses.html.twig', array(
                 'list' => $listLenses,
-                'id' => $id
+                'id' => $id,
+                'form' => $form->createView()
             ));
         }
 

@@ -27,6 +27,28 @@ class LensRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function filter($id, $manufacturer = '', $monture = '')
+    {
+        $qb = $this->createQueryBuilder('l');
+
+        if ($manufacturer) {
+            $qb->andWhere('l.manufacturer = :manufacturer')
+                ->setParameter('manufacturer', $manufacturer);
+        }
+        
+        if ($monture) {
+            $qb->andWhere('l.monture = :monture')
+                ->setParameter('monture', $monture);
+        }
+
+        $qb->orderBy('l.id', 'DESC')
+            ->setFirstResult(($id - 1)*5)
+            ->setMaxResults(5);
+        
+        return $qb->getQuery()->getResult();
+
+    }
+
 //    /**
 //     * @return Lens[] Returns an array of Lens objects
 //     */
