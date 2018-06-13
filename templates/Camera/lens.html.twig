@@ -5,7 +5,7 @@
 {% block body %}
     <div class="row justify-content-between mt-2">
         <div class="col-lg-2">
-            <a  class="btn btn-sm btn-warning" href="{{ path("app_lenses") }}">Retour à la liste</a>
+            <a  class="btn btn-sm btn-warning" href="{{ path("app_lenses_page", { 'id': 1 }) }}">Retour à la liste</a>
         </div>
         {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
             <div class="col-lg-2">

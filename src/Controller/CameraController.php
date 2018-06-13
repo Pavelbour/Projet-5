@@ -8,36 +8,27 @@
     use App\Entity\CameraComment;
     use App\Form\CameraCommentType;
     use App\Form\CameraType;
+    use App\Form\CamFilterType;
 
     class CameraController extends Controller
     {
-        public function home()
+        public function camerasPage(Request $request, $id)
         {
+            $camera = new Camera();
             $repository = $this
             ->getDoctrine()
             ->getManager()
             ->getRepository(Camera::class);
+            $form = $this->createForm(CamFilterType::class, $camera);
 
-            $listCameras = $repository->findAll();
+            $form->handleRequest($request);
 
-            return $this->render('Camera/cameras.html.twig', array(
-                'list' => $listCameras
-            ));
-        }
+            if ($form->isSubmitted() && $form->isValid()) {
+                $listCameras = $repository->filter($id, $camera->getManufacturer(), $camera->getCategory());
 
-        public function camerasPage($id)
-        {
-            $repository = $this
-            ->getDoctrine()
-            ->getManager()
-            ->getRepository(Camera::class);
-
-            $listCameras = $repository->findBy(
-                array(),
-                array('id' => 'desc'),
-                5,
-                ($id-1)*5
-            );
+            } else {
+                $listCameras = $repository->filter($id);
+            }
 
             if ($id == 1) {
                 $id = 2;
@@ -45,7 +36,8 @@
 
             return $this->render('Camera/cameras.html.twig', array(
                 'list' => $listCameras,
-                'id' => $id
+                'id' => $id,
+                'form' => $form->createView()
             ));
         }
 

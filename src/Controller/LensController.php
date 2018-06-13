@@ -11,18 +11,27 @@
 
     class LensController extends Controller
     {
-        public function home()
+        public function lensesPage($id)
         {
             $repository = $this
             ->getDoctrine()
             ->getManager()
             ->getRepository(Lens::class);
 
-            $list = $repository->findAll();
+            $listLenses = $repository->findBy(
+                array(),
+                array('id' => 'desc'),
+                5,
+                ($id-1)*5
+            );
 
+            if ($id == 1) {
+                $id = 2;
+            }
 
             return $this->render('Camera/lenses.html.twig', array(
-                'list' => $list
+                'list' => $listLenses,
+                'id' => $id
             ));
         }
 

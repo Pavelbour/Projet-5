@@ -27,6 +27,28 @@ class CameraRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function filter($id, $manufacturer = '', $category = '')
+    {
+        $qb = $this->createQueryBuilder('c');
+
+        if ($manufacturer) {
+            $qb->andWhere('c.manufacturer = :manufacturer')
+                ->setParameter('manufacturer', $manufacturer);
+        }
+        
+        if ($category) {
+            $qb->andWhere('c.category = :category')
+                ->setParameter('category', $category);
+        }
+
+        $qb->orderBy('c.id', 'DESC')
+            ->setFirstResult(($id - 1)*5)
+            ->setMaxResults(5);
+        
+        return $qb->getQuery()->getResult();
+
+    }
+
 //    /**
 //     * @return Camera[] Returns an array of Camera objects
 //     */

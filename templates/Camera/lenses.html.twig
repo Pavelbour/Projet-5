@@ -23,6 +23,17 @@
             </div>
         {% endfor %}
     </div>
+    <div class="row justify-content-end mt-2">
+        <nav class="col-2">
+            <ul class="pagination">
+                <li class="page-item"><a class="page-link" href="{{ path('app_cameras_page', { 'id': 1 }) }}"><span>&laquo;</span></a><li>
+                <li class="page-item"><a class="page-link" href="{{ path('app_cameras_page', { 'id': ( id - 1 )}) }}">{{ (id - 1) }}</a><li>
+                <li class="page-item"><a class="page-link" href="{{ path('app_cameras_page', { 'id': id }) }}">{{ id }}</a><li>
+                <li class="page-item"><a class="page-link" href="{{ path('app_cameras_page', { 'id': ( id + 1) }) }}">{{ (id + 1) }}</a><li>
+                <li class="page-item"><a class="page-link"><span>&raquo;<span></a></li>
+            </ul>
+        </nav>
+    </div>
 {% endblock %}
 
 {% block menu %}

@@ -5,11 +5,37 @@
 {% block body %}
     <h1>Appareils photo</h1>
 
-    <div class="row">
+    <div class="row justify-content-end">
+        <div class="col-1">
+            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#filter">
+                Filtre
+            </button>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="filter" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Filter</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {{ form_start(form) }}
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-2">
         {% for camera in list %}
             <div class="col-lg-3 col-md-4 col-sm-6">
                 <div class="card text-center">
-                    <img class="card-img-top" src="img/{{ camera.manufacturer.manufacturer }}/{{ camera.CameraName }}/camera.jpg" />
+                    <img class="card-img-top" src="../img/{{ camera.manufacturer.manufacturer }}/{{ camera.CameraName }}/camera.jpg" />
                     <div class="card-body">
                         <h5 class="cart-title">{{ camera.manufacturer.manufacturer ~ " " ~ camera.CameraName }}</h5>
                         <p class="card-text">{{ camera.description }}</p>

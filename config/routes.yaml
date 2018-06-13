@@ -51,10 +51,6 @@ app_delete_user:
     requirements:
         id: '\d+'
 
-app_cameras:
-    path: /cameras
-    controller: App\Controller\CameraController::home
-
 app_cameras_page:
     path: /cameras/page/{id}
     controller: App\Controller\CameraController::camerasPage
@@ -86,10 +82,12 @@ app_delete_camera:
 app_add_new_monture:
     path: /add-new-monture
     controller: App\Controller\MontureController::addMonture
-    
-app_lenses:
-    path: /lenses
-    controller: App\Controller\LensController::home
+
+app_lenses_page:
+    path: /lenses/page/{id}
+    controller: App\Controller\LensController::lensesPage
+    requirements:
+        id: '\d+'
 
 app_lens:
     path: /lens/{id}
