@@ -6,6 +6,7 @@
     use Symfony\Component\HttpFoundation\Request;
     use App\Entity\Camera;
     use App\Entity\CameraComment;
+    use App\Entity\ForumTheme;
     use App\Form\CameraCommentType;
     use App\Form\CameraType;
     use App\Form\CamFilterType;
@@ -92,8 +93,11 @@
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-
+                $forum = new ForumTheme();
+                $forum->setTheme($camera->getCameraName());
+                $forum->setThemeParent($camera->getManufacturer()->getManufacturer());
                 $em = $this->getDoctrine()->getManager();
+                $em->persist($forum);
                 $em->persist($camera);
                 $em->flush();
                 $request->getSession()->getFlashBag()->add('info', 'L\'appareil a été ajouté');
@@ -140,6 +144,8 @@
             $em->remove($camera);
             $em->flush();
             $request->getSession()->getFlashBag()->add('info', 'L\'appareil a été effacé');
-            return $this->redirectToRoute('app_cameras');
+            return $this->redirectToRoute('app_cameras_page', array(
+                'id' => 1
+            ));
         }
     }

@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use App\Entity\ForumTheme;
 
 class LensManufacturerController extends Controller
 {
@@ -22,14 +23,19 @@ class LensManufacturerController extends Controller
             $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            
+            $forum = new ForumTheme();
+            $forum->setTheme('Objectifs de '.$manufacturer->getManufacturer());
+            $forum->setThemeParent('Objectifs');
             $em = $this->getDoctrine()->getManager();
+            $em->persist($forum);
             $em->persist($manufacturer);
             $em->flush();
 
-            $request->getSession()->getFlashBag()->add('notice', 'La manufacturer a été ajoutée.');
+            $request->getSession()->getFlashBag()->add('notice', 'Le fabricant a été ajouté.');
 
-            return $this->redirectToRoute('app_lenses');
+            return $this->redirectToRoute('app_lenses_page', array(
+                'id' => 1
+            ));
         }
 
         return $this->render('Camera/add.html.twig', array(

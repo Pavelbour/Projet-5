@@ -55,10 +55,16 @@ class User implements UserInterface, \Serializable
      */
     private $lensComments;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ForumMessage", mappedBy="user", orphanRemoval=true)
+     */
+    private $forumMessages;
+
     public function __construct()
     {
         $this->cameraComments = new ArrayCollection();
         $this->lensComments = new ArrayCollection();
+        $this->forumMessages = new ArrayCollection();
     }
 
     public function getId()
@@ -207,6 +213,37 @@ class User implements UserInterface, \Serializable
             // set the owning side to null (unless already changed)
             if ($lensComment->getUserId() === $this) {
                 $lensComment->setUserId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ForumMessage[]
+     */
+    public function getForumMessages(): Collection
+    {
+        return $this->forumMessages;
+    }
+
+    public function addForumMessage(ForumMessage $forumMessage): self
+    {
+        if (!$this->forumMessages->contains($forumMessage)) {
+            $this->forumMessages[] = $forumMessage;
+            $forumMessage->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeForumMessage(ForumMessage $forumMessage): self
+    {
+        if ($this->forumMessages->contains($forumMessage)) {
+            $this->forumMessages->removeElement($forumMessage);
+            // set the owning side to null (unless already changed)
+            if ($forumMessage->getUser() === $this) {
+                $forumMessage->setUser(null);
             }
         }
 

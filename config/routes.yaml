@@ -116,9 +116,11 @@ app_add_new_lens_manufacturer:
     controller: App\Controller\LensManufacturerController::addManufacturer
 
 app_forum:
-    path: /forum
-    controller: App\Controller\ForumController::home
-
+    path: /forum/{theme}/{page}
+    controller: App\Controller\ForumThemeController::theme
+    requirements:
+        page: '\d+'
+        
 app_user_test:
     path: /user-test
     controller: App\Controller\UserController::test

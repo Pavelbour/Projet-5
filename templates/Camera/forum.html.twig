@@ -4,4 +4,50 @@
 
 {% block body %}
     <h1>Forum</h1>
+
+    <div class="row justify-content-end">
+        <div class="col-3">
+            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#theme">
+                Ajouter un nouveau theme
+            </button>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="theme" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ajouter un nouveau thème</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {{ form_start(form) }}
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <ul class="list-group col-12 mt-2">
+            {% for theme in list %}
+                <li class="list-group-item"><a href="{{ path('app_forum', { 'theme': theme.theme, 'page': 1 }) }}">{{ theme.theme }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="row justify-content-end mt-2">
+        <nav class="col-2">
+            <ul class="pagination">
+                <li class="page-item"><a class="page-link" href="{{ path('app_forum', { 'theme': theme, 'page': 1 }) }}"><span>&laquo;</span></a><li>
+                <li class="page-item"><a class="page-link" href="{{ path('app_forum', { 'theme': theme, 'page': ( page - 1 ) }) }}">{{ (page - 1) }}</a><li>
+                <li class="page-item"><a class="page-link" href="{{ path('app_forum', { 'theme': theme, 'page': page }) }}">{{ page }}</a><li>
+                <li class="page-item"><a class="page-link" href="{{ path('app_forum', { 'theme': theme, 'page': ( page + 1 ) }) }}">{{ (page + 1) }}</a><li>
+                <li class="page-item"><a class="page-link"><span>&raquo;<span></a></li>
+            </ul>
+        </nav>
+    </div>
 {% endblock %}

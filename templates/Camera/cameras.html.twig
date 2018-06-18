@@ -35,7 +35,7 @@
         {% for camera in list %}
             <div class="col-lg-3 col-md-4 col-sm-6">
                 <div class="card text-center">
-                    <img class="card-img-top" src="../img/{{ camera.manufacturer.manufacturer }}/{{ camera.CameraName }}/camera.jpg" />
+                    <img class="card-img-top" src="../../../public/img/{{ camera.manufacturer.manufacturer }}/{{ camera.CameraName }}/camera.jpg" />
                     <div class="card-body">
                         <h5 class="cart-title">{{ camera.manufacturer.manufacturer ~ " " ~ camera.CameraName }}</h5>
                         <p class="card-text">{{ camera.description }}</p>

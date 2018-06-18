@@ -4,6 +4,7 @@
 
     use Symfony\Bundle\FrameworkBundle\Controller\Controller;
     use Symfony\Component\HttpFoundation\Request;
+    use App\Entity\ForumTheme;
     use App\Entity\Lens;
     use App\Entity\LensComment;
     use App\Form\LensCommentType;
@@ -94,7 +95,11 @@
 
             if ($form->isSubmitted() && $form->isValid()) {
 
+                $forum = new ForumTheme();
+                $forum->setTheme($lens->getName());
+                $forum->setThemeParent('Objectifs de '.$lens->getManufacturer()->getManufacturer());
                 $em = $this->getDoctrine()->getManager();
+                $em->persist($forum);
                 $em->persist($lens);
                 $em->flush();
                 $request->getSession()->getFlashBag()->add('info', 'L\'objectif a été ajouté');

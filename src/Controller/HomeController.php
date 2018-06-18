@@ -68,8 +68,4 @@
             return $this->render('Camera/user.html.twig');
         }
 
-        public function forum()
-        {
-            return $this->render('Camera/forum.html.twig');
-        }
     }
