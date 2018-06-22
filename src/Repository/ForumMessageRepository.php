@@ -19,6 +19,15 @@ class ForumMessageRepository extends ServiceEntityRepository
         parent::__construct($registry, ForumMessage::class);
     }
 
+    public function getNumber($theme)
+    {
+        return $this
+            ->_em
+            ->createQuery('SELECT COUNT(m) t FROM App\Entity\ForumMessage m WHERE m.theme = :theme')
+            ->setParameter('theme', $theme)
+            ->getResult();
+    }
+
 //    /**
 //     * @return ForumMessage[] Returns an array of ForumMessage objects
 //     */

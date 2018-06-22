@@ -116,10 +116,11 @@ app_add_new_lens_manufacturer:
     controller: App\Controller\LensManufacturerController::addManufacturer
 
 app_forum:
-    path: /forum/{theme}/{page}
+    path: /forum/{theme}/{page}/{mpage}
     controller: App\Controller\ForumThemeController::theme
     requirements:
         page: '\d+'
+        mpage: '\d+'
         
 app_user_test:
     path: /user-test
@@ -132,3 +133,11 @@ app_add_new_category:
 app_add_new_manufacturer:
     path: /add-new-manufacturer
     controller: App\Controller\CamManufacturerController::addManufacturer
+
+app_forum_add_theme:
+    path: /user/add-new-theme/{theme}
+    controller: App\Controller\ForumThemeController::addTheme
+
+app_forum_add_message:
+    path: /user/add-new-message/{theme}
+    controller: App\Controller\ForumMessageController::addMessage

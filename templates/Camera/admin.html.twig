@@ -30,7 +30,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Appareils photo</h5>
                     <h6 class="card-subtitle mb-2 text-muted">Sur ce site il y a {{ camerasNumber.0.t }} appareils photo</h6>
-                    <a  class="btn sm-btn btn-primary mb-2" href="{{ path('app_cameras') }}">La rubrique appareils photo</a>
+                    <a  class="btn sm-btn btn-primary mb-2" href="{{ path('app_cameras_page', {'id': 1}) }}">La rubrique appareils photo</a>
                 </div>
             </div>
         </div>
@@ -39,7 +39,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Objectifs</h5>
                     <h6 class="card-subtitle mb-2 text-muted">Sur ce site il y a  {{ lensesNumber.0.t }} objectifs</h6>
-                    <a  class="btn sm-btn btn-primary mb-2" href="{{ path('app_lenses') }}">La rubrique objectifs</a>
+                    <a  class="btn sm-btn btn-primary mb-2" href="{{ path('app_lenses_page', {'id': 1}) }}">La rubrique objectifs</a>
                 </div>
             </div>
         </div>

@@ -1,40 +1,43 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Forum{% endblock %}
+{% block title %}Forum - {{ theme }}{% endblock %}
 
 {% block body %}
-    <h1>Forum</h1>
+    <h1>{{ theme }}</h1>
 
-    <div class="row justify-content-end">
-        <div class="col-3">
-            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#theme">
-                Ajouter un nouveau theme
-            </button>
-        </div>
-    </div>
-
-
-    <div class="modal fade" id="theme" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Ajouter un nouveau thème</h5>
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    {{ form_start(form) }}
-                    {{ form_end(form) }}
-                </div>
+    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+        <div class="row justify-content-end">
+            <div class="col-3">
+                <a class="btn btn-warning" href="{{ path('app_forum_add_theme', { 'theme': theme }) }}">
+                    Ajouter un nouveau theme
+                </a>
+            </div>
+            <div class="col-2">
+                <a class="btn btn-warning" href="{{ path('app_forum_add_message', { 'theme': theme }) }}">
+                    Nouveau message
+                </a>
             </div>
         </div>
-    </div>
+    {% endif %}
     
     <div class="row">
         <ul class="list-group col-12 mt-2">
             {% for theme in list %}
-                <li class="list-group-item"><a href="{{ path('app_forum', { 'theme': theme.theme, 'page': 1 }) }}">{{ theme.theme }}</a></li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-12">
+                            <a href="{{ path('app_forum', { 'theme': theme.theme, 'page': 1, 'mpage': 1 }) }}">{{ theme.theme }}</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            Il y a {{ number[theme.theme]  }} messages dans ce fil. 
+                            {% if lastmessages[theme.theme] is defined %}
+                                Le dernier message a été  ajouté le {{ lastmessages[theme.theme].added|date("d/m/y") }} à {{ lastmessages[theme.theme].added|date("h:m:s") }} par {{ lastmessages[theme.theme].user.username }}
+                            {% endif %}
+                        </div>
+                    </div>
+                </li>
             {% endfor %}
         </ul>
     </div>
@@ -42,10 +45,41 @@
     <div class="row justify-content-end mt-2">
         <nav class="col-2">
             <ul class="pagination">
-                <li class="page-item"><a class="page-link" href="{{ path('app_forum', { 'theme': theme, 'page': 1 }) }}"><span>&laquo;</span></a><li>
-                <li class="page-item"><a class="page-link" href="{{ path('app_forum', { 'theme': theme, 'page': ( page - 1 ) }) }}">{{ (page - 1) }}</a><li>
-                <li class="page-item"><a class="page-link" href="{{ path('app_forum', { 'theme': theme, 'page': page }) }}">{{ page }}</a><li>
-                <li class="page-item"><a class="page-link" href="{{ path('app_forum', { 'theme': theme, 'page': ( page + 1 ) }) }}">{{ (page + 1) }}</a><li>
+                <li class="page-item"><a class="page-link" href="{{ path('app_forum', { 'theme': theme, 'page': 1, 'mpage': 1 }) }}"><span>&laquo;</span></a><li>
+                <li class="page-item"><a class="page-link" href="{{ path('app_forum', { 'theme': theme, 'page': ( page - 1 ), 'mpage': 1 }) }}">{{ (page - 1) }}</a><li>
+                <li class="page-item"><a class="page-link" href="{{ path('app_forum', { 'theme': theme, 'page': page, 'mpage': 1 }) }}">{{ page }}</a><li>
+                <li class="page-item"><a class="page-link" href="{{ path('app_forum', { 'theme': theme, 'page': ( page + 1 ), 'mpage': 1 }) }}">{{ (page + 1) }}</a><li>
+                <li class="page-item"><a class="page-link"><span>&raquo;<span></a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="row">
+        <ul class="list-group col-12 mt-2">
+            {% for message in messages %}
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-12">
+                            {{ message.message }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            Publié le <span class="font-italic">{{ message.added|date('d/m/y') }}</span> à <span class="font-italic">{{ message.added|date('h:m:s') }}</span> par <span class="font-weight-bold">{{ message.user.username }}</span>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="row justify-content-end mt-2">
+        <nav class="col-2">
+            <ul class="pagination">
+                <li class="page-item"><a class="page-link" href="{{ path('app_forum', { 'theme': theme, 'page': 1, 'mpage': 1 }) }}"><span>&laquo;</span></a><li>
+                <li class="page-item"><a class="page-link" href="{{ path('app_forum', { 'theme': theme, 'page': ( page - 1 ), 'mpage': 1 }) }}">{{ (page - 1) }}</a><li>
+                <li class="page-item"><a class="page-link" href="{{ path('app_forum', { 'theme': theme, 'page': page, 'mpage': 1 }) }}">{{ page }}</a><li>
+                <li class="page-item"><a class="page-link" href="{{ path('app_forum', { 'theme': theme, 'page': ( page + 1 ), 'mpage': 1 }) }}">{{ (page + 1) }}</a><li>
                 <li class="page-item"><a class="page-link"><span>&raquo;<span></a></li>
             </ul>
         </nav>

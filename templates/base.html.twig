@@ -15,7 +15,7 @@
                             <a class="nav-link text-warning" href="{{ path('app_home') }}">Acceuil</a>
                             <a class="nav-link text-warning" href="{{ path('app_cameras_page', { 'id': 1 }) }}">Appareils photos</a>
                             <a class="nav-link text-warning" href="{{ path('app_lenses_page', { 'id': 1 }) }}">Objectifs</a>
-                            <a class="nav-link text-warning" href="{{ path('app_forum', { 'theme': 'index', 'page': 1 }) }}">Forum</a>
+                            <a class="nav-link text-warning" href="{{ path('app_forum', { 'theme': 'Forum', 'page': 1, 'mpage': 1 }) }}">Forum</a>
                             {% block menu %}{% endblock %}                            
                             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}                               
                                 <a class="nav-link text-warning" href="{{ path('logout') }}">Déconnexion</a>
