@@ -6,6 +6,8 @@
     use App\Entity\Camera;
     use App\Entity\Lens;
     use App\Entity\User;
+    use App\Entity\ForumTheme;
+    use App\Entity\ForumMessage;
 
     class HomeController extends Controller
     {
@@ -41,25 +43,18 @@
 
         public function admin()
         {
-            $camerasNumber = $this
-                ->getDoctrine()
-                ->getManager()
-                ->getRepository(Camera::class)
-                ->getNumber();
-            $lensesNumber = $this
-                ->getDoctrine()
-                ->getManager()
-                ->getRepository(Lens::class)
-                ->getNumber();
-            $usersNumber = $this
-                ->getDoctrine()
-                ->getManager()
-                ->getRepository(User::class)
-                ->getNumber();
+            $em = $this->getDoctrine()->getManager();
+            $camerasNumber = $em->getRepository(Camera::class)->getNumber();
+            $lensesNumber = $em->getRepository(Lens::class)->getNumber();
+            $usersNumber = $em->getRepository(User::class)->getNumber();
+            $themeNumber = $em->getRepository(ForumTheme::class)->getTotalNumber();
+            $messageNumber = $em->getRepository(ForumMessage::class)->getTotalNumber();
             return $this->render('Camera/admin.html.twig', array(
                 'camerasNumber' => $camerasNumber,
                 'lensesNumber' => $lensesNumber,
-                'usersNumber' => $usersNumber
+                'usersNumber' => $usersNumber,
+                'themeNumber' => $themeNumber,
+                'messageNumber' => $messageNumber
             ));
         }
 

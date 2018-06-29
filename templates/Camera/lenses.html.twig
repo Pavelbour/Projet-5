@@ -35,6 +35,11 @@
         {% for lens in list %}
             <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
                 <div class="card text-center">
+                {% if lens.image != "" %}
+                    <img class="card-img-top" src="{{ asset('img/' ~ lens.image) }}" />
+                {% else %}
+                    <p class="card-text">Pas d'image</p>
+                {% endif %}
                     <div class="card-body">
                         <h5 class="card-title">
                             {{ lens.manufacturer.manufacturer ~ " " ~ lens.name }}

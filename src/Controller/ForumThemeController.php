@@ -10,43 +10,61 @@
 
     class ForumThemeController extends Controller
     {
+        protected function numberPages($nombre, $epp)
+        {
+            if (($nombre % $epp) == 0) {
+                return $nombre / $epp;
+            } else {
+                return ($nombre / $epp) + 1;
+            }
+        }
+
         public function theme(Request $request, $theme, $page, $mpage)
         {
-            $newTheme = new ForumTheme();
             $em = $this->getDoctrine()->getManager();
-            $repository = $em->getRepository(ForumTheme::class);
+            $tRepository = $em->getRepository(ForumTheme::class);
+            $mRepository = $em->getRepository(ForumMessage::class);
+            $currentTheme = $tRepository->findOneByTheme($theme);
 
-            $list = $repository->findBy(
+            $list = $tRepository->findBy(
                 array('themeParent' => $theme),
                 array('id' => 'DESC'),
-                10,
-                ($page-1) * 10
+                2,
+                ($page-1) * 2
             );
 
-            if ($page == 1) {
-                $page = 2;
-            }
+            $numberOfThemes = $tRepository->getNumber($theme);
+            $numberOfMessages = $mRepository->getNumber($currentTheme);
+            $nT = $numberOfThemes[0]['t'];
+            $nM = $numberOfMessages[0]['t'];
+            $pList = $this->numberPages($nT, 2);
+            $mList = $this->numberPages($nM, 2);
 
-            $currentTheme = $repository->findByTheme($theme);
-            $repository = $em->getRepository(ForumMessage::class);
-            $messages = $repository->findBy(
+            $messages = $mRepository->findBy(
                 array('theme' => $currentTheme),
                 array('id' => 'DESC'),
-                10,
-                ($mpage-1) * 10
+                2,
+                ($mpage-1) * 2
             );
-            
+
             $number = array();
+            $themes = array();
             $lastMessages = array();
+
             foreach ($list as $element) {
-                $currentNumber = $repository->getNumber($element);
-                $number[$element->getTheme()] = $currentNumber[0]['t'];
-                $lastMessage = $repository->findBy(
-                    array('theme' => $element->getTheme()),
+                $mNumber = $mRepository->getNumber($element);
+                $tNumber = $tRepository->getNumber($element->getTheme());
+
+                $number[$element->getTheme()] = $mNumber[0]['t'];
+                $themes[$element->getTheme()] = $tNumber[0]['t'];
+                
+                $lastMessage = $mRepository->findBy(
+                    array('theme' => $element),
                     array('id' => 'DESC'),
                     1,
                     0
                 );
+                
                 if ( isset($lastMessage[0])) {
                     $lastMessages[$element->getTheme()] = $lastMessage[0];
                 }
@@ -58,7 +76,11 @@
                 'messages' => $messages,
                 'lastmessages' => $lastMessages,
                 'number' => $number,
-                'page' => $page
+                'themes' => $themes,
+                'page' => $page,
+                'mpage' => $mpage,
+                'plist' => (integer)$pList,
+                'mlist' => (integer)$mList
             ));
         }
 

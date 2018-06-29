@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CameraRepository")
@@ -79,6 +80,12 @@ class Camera
      * @ORM\OneToMany(targetEntity="App\Entity\CameraComment", mappedBy="cameraId", orphanRemoval=true)
      */
     private $cameraComments;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\File(mimeTypes={ "image/jpeg","image/jpg","image/png" })
+     */
+    private $image;
 
     public function __construct()
     {
@@ -264,6 +271,18 @@ class Camera
                 $cameraComment->setCameraId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    public function setImage($image)
+    {
+        $this->image = $image;
 
         return $this;
     }

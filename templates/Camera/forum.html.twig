@@ -31,7 +31,7 @@
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            Il y a {{ number[theme.theme]  }} messages dans ce fil. 
+                            Il y a {{ themes[theme.theme] }} fils et {{ number[theme.theme] }} messages dans ce fil. 
                             {% if lastmessages[theme.theme] is defined %}
                                 Le dernier message a été  ajouté le {{ lastmessages[theme.theme].added|date("d/m/y") }} à {{ lastmessages[theme.theme].added|date("h:m:s") }} par {{ lastmessages[theme.theme].user.username }}
                             {% endif %}
@@ -42,17 +42,31 @@
         </ul>
     </div>
 
-    <div class="row justify-content-end mt-2">
-        <nav class="col-2">
-            <ul class="pagination">
-                <li class="page-item"><a class="page-link" href="{{ path('app_forum', { 'theme': theme, 'page': 1, 'mpage': 1 }) }}"><span>&laquo;</span></a><li>
-                <li class="page-item"><a class="page-link" href="{{ path('app_forum', { 'theme': theme, 'page': ( page - 1 ), 'mpage': 1 }) }}">{{ (page - 1) }}</a><li>
-                <li class="page-item"><a class="page-link" href="{{ path('app_forum', { 'theme': theme, 'page': page, 'mpage': 1 }) }}">{{ page }}</a><li>
-                <li class="page-item"><a class="page-link" href="{{ path('app_forum', { 'theme': theme, 'page': ( page + 1 ), 'mpage': 1 }) }}">{{ (page + 1) }}</a><li>
-                <li class="page-item"><a class="page-link"><span>&raquo;<span></a></li>
-            </ul>
-        </nav>
-    </div>
+    {% if plist > 1 %}
+        <div class="row justify-content-end mt-2">
+            <nav class="col-2">
+                <ul class="pagination">
+                    <li class="page-item"><a class="page-link" href="{{ path('app_forum', { 'theme': theme, 'page': 1, 'mpage': 1 }) }}"><span>&laquo;</span></a><li>
+                    {% if page < 4 %}
+                        {% set start = 1 %}
+                    {% else %}
+                        {% set start = page - 2 %}
+                    {% endif %}
+                    {% if plist - 2 > page %}
+                        {% set stop = page + 2 %}
+                    {% else %}
+                        {% set stop = plist %}
+                    {% endif %}
+
+                    {% for i in start..stop %}
+                        <li class="page-item"><a class="page-link" href="{{ path('app_forum', { 'theme': theme, 'page': i, 'mpage': 1 }) }}">{{ i }}</a><li>
+                    {% endfor %}
+
+                    <li class="page-item"><a class="page-link" href="{{ path('app_forum', { 'theme': theme, 'page': plist, 'mpage': 1 }) }}"><span>&raquo;<span></a></li>
+                </ul>
+            </nav>
+        </div>
+    {% endif %}
 
     <div class="row">
         <ul class="list-group col-12 mt-2">
@@ -61,6 +75,10 @@
                     <div class="row">
                         <div class="col-12">
                             {{ message.message }}
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <a class="btn btn-sm btn-warning" href="{{ path('app_forum_modify_message', { 'id': message.id }) }}">Modifier le message</a>
+                                <a class="btn btn-sm btn-danger" href="{{ path('app_forum_delete_message', { 'id': message.id }) }}">Effacer le message</a>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="row">
@@ -73,15 +91,30 @@
         </ul>
     </div>
 
-    <div class="row justify-content-end mt-2">
-        <nav class="col-2">
-            <ul class="pagination">
-                <li class="page-item"><a class="page-link" href="{{ path('app_forum', { 'theme': theme, 'page': 1, 'mpage': 1 }) }}"><span>&laquo;</span></a><li>
-                <li class="page-item"><a class="page-link" href="{{ path('app_forum', { 'theme': theme, 'page': ( page - 1 ), 'mpage': 1 }) }}">{{ (page - 1) }}</a><li>
-                <li class="page-item"><a class="page-link" href="{{ path('app_forum', { 'theme': theme, 'page': page, 'mpage': 1 }) }}">{{ page }}</a><li>
-                <li class="page-item"><a class="page-link" href="{{ path('app_forum', { 'theme': theme, 'page': ( page + 1 ), 'mpage': 1 }) }}">{{ (page + 1) }}</a><li>
-                <li class="page-item"><a class="page-link"><span>&raquo;<span></a></li>
-            </ul>
-        </nav>
-    </div>
+    {% if mlist > 1 %}
+        <div class="row justify-content-end mt-2">
+            <nav class="col-3">
+                <ul class="pagination">
+                    <li class="page-item"><a class="page-link" href="{{ path('app_forum', { 'theme': theme, 'page': 1, 'mpage': 1 }) }}"><span>&laquo;</span></a><li>
+                    
+                    {% if mpage < 4 %}
+                        {% set start = 1 %}
+                    {% else %}
+                        {% set start = mpage - 2 %}
+                    {% endif %}
+                    {% if mlist - 2 > mpage %}
+                        {% set stop = mpage + 2 %}
+                    {% else %}
+                        {% set stop = mlist %}
+                    {% endif %}
+
+                    {% for i in start..stop %}
+                        <li class="page-item"><a class="page-link" href="{{ path('app_forum', { 'theme': theme, 'page': 1, 'mpage': i }) }}">{{ i }}</a><li>
+                    {% endfor %}
+
+                    <li class="page-item"><a class="page-link" href="{{ path('app_forum', { 'theme': theme, 'page': 1, 'mpage': mlist }) }}"><span>&raquo;<span></a></li>
+                </ul>
+            </nav>
+        </div>
+    {% endif %}
 {% endblock %}

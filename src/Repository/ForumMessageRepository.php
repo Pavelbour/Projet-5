@@ -28,6 +28,14 @@ class ForumMessageRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function getTotalNumber()
+    {
+        return $this
+            ->_em
+            ->createQuery('SELECT COUNT(m) t FROM App\Entity\ForumMessage m')
+            ->getResult();
+    }
+
 //    /**
 //     * @return ForumMessage[] Returns an array of ForumMessage objects
 //     */

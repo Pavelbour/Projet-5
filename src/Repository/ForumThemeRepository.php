@@ -19,6 +19,23 @@ class ForumThemeRepository extends ServiceEntityRepository
         parent::__construct($registry, ForumTheme::class);
     }
 
+    public function getNumber($theme)
+    {
+        return $this
+            ->_em
+            ->createQuery('SELECT COUNT(th) t FROM App\Entity\ForumTheme th WHERE th.themeParent = :theme')
+            ->setParameter('theme', $theme)
+            ->getResult();
+    }
+
+    public function getTotalNumber()
+    {
+        return $this
+            ->_em
+            ->createQuery('SELECT COUNT(th) t FROM App\Entity\ForumTheme th')
+            ->getResult();
+    }
+
 //    /**
 //     * @return ForumTheme[] Returns an array of ForumTheme objects
 //     */

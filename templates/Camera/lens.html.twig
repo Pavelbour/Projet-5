@@ -23,19 +23,35 @@
             <img src="../img/{{ lens.manufacturer.manufacturer }}/{{ lens.name }}/lens.jpg" />
         </div>
     </div>
+    <div class="row justify-content-between">
+        <div class="col-md-4">
+            <div class="col-12"><span class="font-weight-bold">Longeur : </span>{{ lens.length }}</div>
+            <div class="col-12"><span class="font-weight-bold">Monture : </span>{{ lens.monture.monture }}</div>
+            <div class="col-12"><span class="font-weight-bold">Diametre : </span>{{ lens.diameter }}</div>
+            <div class="col-12"><span class="font-weight-bold">Poids : </span>{{ lens.weight }}</div>
+            <div class="col-12"><span class="font-weight-bold">Focal min : </span>{{ lens.focallengthmin }}</div>
+            <div class="col-12"><span class="font-weight-bold">Focal max : </span>{{ lens.focallengthmax }}</div>
+            <div class="col-12"><span class="font-weight-bold">MAP : </span>{{ lens.focuse }}</div>
+            <div class="col-12"><span class="font-weight-bolds">Diametre de filtre : </span>{{ lens.diameteroffilter }}</div>
+            <div class="col-12"><span class="font-weight-bolds">Pour fabricant(s) : </span>
+                {% for manufacturer in lens.forManufacturer %}
+                    {{ manufacturer.manufacturer }}
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-md-4">
+            {% if lens.image != "" %}
+                <img src="{{ asset('img/' ~ lens.image) }}" />
+            {% else %}
+                Pas d'image
+            {% endif %}
+        </div>
+    </div>
     <div class="row justify-content-center">
-        {{ lens.length }}
-        {{ lens.monture.monture }}
-        {{ lens.diameter }}
-        {{ lens.weight }}
-        {{ lens.focallengthmin }}
-        {{ lens.focallengthmax }}
-        {{ lens.focuse }}
-        {{ lens.diameteroffilter }}
         {{ lens.description }}
-        {% for manufacturer in lens.forManufacturer %}
-            {{ manufacturer.manufacturer }}
-        {% endfor %}
+    </div>
+    <div class="row justify-content-center">
+        <a class="btn btn-warning" href="{{ path('app_forum', { 'theme': lens.name, 'page': 1, 'mpage': 1 }) }}">Forum</a>
     </div>
     <div class="row">
         <div class="col-12">

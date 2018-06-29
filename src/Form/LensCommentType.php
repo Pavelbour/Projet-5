@@ -14,7 +14,7 @@
         {
             $builder
                 ->add('comment', TextType::class, array(
-                    'label' => 'disabled'
+                    'label' => false
                 ))
                 ->add('Publier le commentaire', SubmitType::class);
         }

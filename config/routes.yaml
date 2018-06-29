@@ -139,5 +139,17 @@ app_forum_add_theme:
     controller: App\Controller\ForumThemeController::addTheme
 
 app_forum_add_message:
-    path: /user/add-new-message/{theme}
+    path: /user/forum-add-new-message/{theme}
     controller: App\Controller\ForumMessageController::addMessage
+
+app_forum_modify_message:
+    path: /admin/forum-modify-message/{id}
+    controller: App\Controller\ForumMessageController::modifyMessage
+    requirements:
+        id: '\d+'
+
+app_forum_delete_message:
+    path: /admin/forum-delete-message/{id}
+    controller: App\Controller\ForumMessageController::deleteMessage
+    requirements:
+        id: '\d+'

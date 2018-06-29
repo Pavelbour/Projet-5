@@ -32,12 +32,19 @@
             <div class="col-12"><span class="font-weight-bold">Exposition : </span>{{ camera.time }}</div>
         </div>
         <div class="col-md-4">
-            <img width="300px" src="../img/{{ camera.manufacturer.manufacturer }}/{{ camera.CameraName }}/camera.jpg" />
+            {% if camera.image !="" %}
+                <img width="300px" src="{{ asset('img/' ~ camera.image) }}" />
+            {% else %}
+                Pas d'image
+            {% endif %}
         </div>
     </div>
     <div class="row justify-content-center">
-            {{ camera.description }}
-        </div>
+        {{ camera.description }}
+    </div>
+    <div class="row justify-content-center">
+        <a class="btn btn-warning" href="{{ path('app_forum', {'theme': camera.CameraName, 'page': 1, 'mpage': 1 }) }}">Forum</a>
+    </div>
     <div class="row">
         <div class="col-12">
             {{ form_start(form) }}

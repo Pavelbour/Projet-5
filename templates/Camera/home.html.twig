@@ -13,7 +13,11 @@
         {% for camera in cameras %}
             <div class="col-lg-3 col-md-4 col-sm-6">
                 <div class="card text-center">
-                    <img class="card-img-top" src="img/{{ camera.manufacturer.manufacturer }}/{{ camera.CameraName }}/camera.jpg" />
+                    {% if camera.image != "" %}
+                        <img class="card-img-top" src="{{ asset('img/' ~ camera.image) }}" />
+                    {% else %}
+                        <p class="card-text">Pas d'image</p>
+                    {% endif %}
                     <div class="card-body">
                         <h5 class="cart-title">{{ camera.manufacturer.manufacturer ~ " " ~ camera.CameraName }}</h5>
                         <p class="card-text">{{ camera.description }}</p>
@@ -30,6 +34,11 @@
         {% for lens in lenses %}
             <div class="col-lg-3 col-md-4 col-sm-6">
                 <div class="card text-center">
+                    {% if lens.image != "" %}
+                        <img class="card-img-top" src="{{ asset('img/' ~ lens.image) }}" />
+                    {% else %}
+                        <p class="card-text">Pas d'image</p>
+                    {% endif %}
                     <div class="card-body">
                         <h5 class="card-title">
                             {{ lens.manufacturer.manufacturer ~ " " ~ lens.name }}

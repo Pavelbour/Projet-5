@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\LensRepository")
@@ -20,6 +21,7 @@ class Lens
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Regex("[^/]++")
      */
     private $name;
 
@@ -89,6 +91,11 @@ class Lens
      * @ORM\OneToMany(targetEntity="App\Entity\LensComment", mappedBy="lensId", orphanRemoval=true)
      */
     private $lensComments;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $image;
 
     public function __construct()
     {
@@ -298,6 +305,18 @@ class Lens
                 $lensComment->setLensId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    public function setImage($image)
+    {
+        $this->image = $image;
 
         return $this;
     }

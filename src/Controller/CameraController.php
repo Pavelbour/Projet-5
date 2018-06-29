@@ -3,6 +3,7 @@
     namespace App\Controller;
 
     use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+    use Symfony\Component\HttpFoundation\File\File;
     use Symfony\Component\HttpFoundation\Request;
     use App\Entity\Camera;
     use App\Entity\CameraComment;
@@ -10,6 +11,7 @@
     use App\Form\CameraCommentType;
     use App\Form\CameraType;
     use App\Form\CamFilterType;
+    use App\Service\FileUploader;
 
     class CameraController extends Controller
     {
@@ -84,7 +86,7 @@
             ));
         }
 
-        public function addCamera(Request $request)
+        public function addCamera(Request $request, FileUploader $fileUploader)
         {
 
             $camera = new Camera();
@@ -93,6 +95,12 @@
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
+                if ($camera->getImage() != null){
+                    $file = $camera->getImage();
+
+                    $fileName = $fileUploader->upload($file);
+                    $camera->setImage($fileName);
+                }
                 $forum = new ForumTheme();
                 $forum->setTheme($camera->getCameraName());
                 $forum->setThemeParent($camera->getManufacturer()->getManufacturer());
@@ -113,15 +121,24 @@
             ));
         }
 
-        public function modifyCamera(Request $request, $id)
+        public function modifyCamera(Request $request, FileUploader $fileUploader, $id)
         {
             $em = $this->getDoctrine()->getManager();
             $camera = $em->getRepository(Camera::class)->find($id);
+            if ($camera->getImage() != null){
+                $camera->setImage(new File($this->getParameter('img').'/'.$camera->getImage()));
+            }
             $form = $this->createForm(CameraType::class, $camera);
 
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
+                if ($camera->getImage() != null){
+                    $file = $camera->getImage();
+
+                    $fileName = $fileUploader->upload($file);
+                    $camera->setImage($fileName);
+                }
 
                 $em->flush();
                 $request->getSession()->getFlashBag()->add('info', 'L\'appareil a été modifié');
@@ -132,7 +149,7 @@
             }
 
             return $this->render('Camera/add.html.twig', array(
-                'title' => 'Ajout d\'un nouveau appareil',
+                'title' => 'Modification des données de l\'appareil.',
                 'form' => $form->createView()
             ));
         }
@@ -141,6 +158,8 @@
         {
             $em = $this->getDoctrine()->getManager();
             $camera = $em->getRepository(Camera::class)->find($id);
+            $theme = $em->getRepository(ForumTheme::class)->findByTheme($camera->getCameraName());
+            $theme[0]->setThemeParent('Archives');
             $em->remove($camera);
             $em->flush();
             $request->getSession()->getFlashBag()->add('info', 'L\'appareil a été effacé');

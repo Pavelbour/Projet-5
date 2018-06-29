@@ -3,6 +3,7 @@
     namespace App\Controller;
 
     use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+    use Symfony\Component\HttpFoundation\File\File;
     use Symfony\Component\HttpFoundation\Request;
     use App\Entity\ForumTheme;
     use App\Entity\Lens;
@@ -10,6 +11,7 @@
     use App\Form\LensCommentType;
     use App\Form\LensType;
     use App\Form\LensFilterType;
+    use App\Service\FileUploader;
 
     class LensController extends Controller
     {
@@ -85,7 +87,7 @@
             ));
         }
 
-        public function addLens(Request $request)
+        public function addLens(Request $request, FileUploader $fileUploader)
         {
 
             $lens = new Lens();
@@ -95,6 +97,12 @@
 
             if ($form->isSubmitted() && $form->isValid()) {
 
+                if ($lens->getImage != null){
+                    $file = $lens->getImage();
+
+                    $fileName = $fileUploader->upload($file);
+                    $lens->setImage($fileName);
+                }
                 $forum = new ForumTheme();
                 $forum->setTheme($lens->getName());
                 $forum->setThemeParent('Objectifs de '.$lens->getManufacturer()->getManufacturer());
@@ -115,17 +123,27 @@
             ));
         }
 
-        public function modifyLens(Request $request, $id)
+        public function modifyLens(Request $request, FileUploader $fileUploader, $id)
         {
 
             $em = $this->getDoctrine()->getManager();
             $lens = $em->getRepository(Lens::class)->find($id);
+            if ($lens->getImage != null) {
+                $lens->setImage(new File($this->getParameter('img').'/'.$lens->getImage()));
+            }
 
             $form = $this->createForm(LensType::class, $lens);
 
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
+
+                if ($lens->getImage != null) {
+                    $file = $lens->getImage();
+
+                    $fileName = $fileUploader->upload($file);
+                    $lens->setImage($fileName);
+                }
 
                 $em->flush();
                 $request->getSession()->getFlashBag()->add('info', 'L\'objectif a été modifié');
@@ -145,9 +163,13 @@
         {
             $em = $this->getDoctrine()->getManager();
             $lens = $em->getRepository(Lens::class)->find($id);
+            $theme = $em->getRepository(ForumTheme::class)->findByTheme($lens->getName());
+            $theme[0]->setThemeParent('Archives');
             $em->remove($lens);
             $em->flush();
             $request->getSession()->getFlashBag()->add('info', 'L\'objectif a été effacé');
-            return $this->redirectToRoute('app_lenses');
+            return $this->redirectToRoute('app_lenses_page', array(
+                'id' => 1
+            ));
         }
     }   

@@ -3,6 +3,7 @@
 
     use Symfony\Component\Form\AbstractType;
     use Symfony\Component\Form\FormBuilderInterface;
+    use Symfony\Component\Form\Extension\Core\Type\FileType;
     use Symfony\Component\Form\Extension\Core\Type\TextType;
     use Symfony\Component\Form\Extension\Core\Type\TextareaType;
     use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -57,6 +58,9 @@
                     'choice_label' => 'manufacturer',
                     'multiple' => 'true',
                     'label' => 'Pour'
+                ))
+                ->add('Image', FileType::class, array(
+                    'required' => false
                 ))
                 ->add('Enrigistrer', SubmitType::class);
         }
