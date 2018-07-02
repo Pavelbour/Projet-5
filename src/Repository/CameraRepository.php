@@ -42,10 +42,31 @@ class CameraRepository extends ServiceEntityRepository
         }
 
         $qb->orderBy('c.id', 'DESC')
-            ->setFirstResult(($id - 1)*5)
-            ->setMaxResults(5);
+            ->setFirstResult(($id - 1)*2)
+            ->setMaxResults(2);
         
         return $qb->getQuery()->getResult();
+
+    }
+
+    public function filterNumber($manufacturer = '', $category = '')
+    {
+        $qb = $this->_em->createQueryBuilder();
+
+        $qb->select($qb->expr()->count('c.id'))
+            ->from($this->_entityName, 'c');
+
+        if ($manufacturer) {
+            $qb->andWhere('c.manufacturer = :manufacturer')
+                ->setParameter('manufacturer', $manufacturer);
+        }
+        
+        if ($category) {
+            $qb->andWhere('c.category = :category')
+                ->setParameter('category', $category);
+        }
+        
+        return $qb->getQuery()->getSingleScalarResult();
 
     }
 

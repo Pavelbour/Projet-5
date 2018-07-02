@@ -42,10 +42,31 @@ class LensRepository extends ServiceEntityRepository
         }
 
         $qb->orderBy('l.id', 'DESC')
-            ->setFirstResult(($id - 1)*5)
-            ->setMaxResults(5);
+            ->setFirstResult(($id - 1)*2)
+            ->setMaxResults(2);
         
         return $qb->getQuery()->getResult();
+
+    }
+
+    public function filterNumber($manufacturer = '', $monture = '')
+    {
+        $qb = $this->_em->createQueryBuilder();
+
+        $qb->select($qb->expr()->count('l.id'))
+            ->from($this->_entityName, 'l');
+
+        if ($manufacturer) {
+            $qb->andWhere('c.manufacturer = :manufacturer')
+                ->setParameter('manufacturer', $manufacturer);
+        }
+        
+        if ($monture) {
+            $qb->andWhere('l.monture = :monture')
+                ->setParameter('monture', $monture);
+        }
+        
+        return $qb->getQuery()->getSingleScalarResult();
 
     }
 

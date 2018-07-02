@@ -56,17 +56,32 @@
         {% endfor %}
     </div>
 
-    <div class="row justify-content-end mt-2">
-        <nav class="col-2">
-            <ul class="pagination">
-                <li class="page-item"><a class="page-link" href="{{ path('app_cameras_page', { 'id': 1 }) }}"><span>&laquo;</span></a><li>
-                <li class="page-item"><a class="page-link" href="{{ path('app_cameras_page', { 'id': ( id - 1 )}) }}">{{ (id - 1) }}</a><li>
-                <li class="page-item"><a class="page-link" href="{{ path('app_cameras_page', { 'id': id }) }}">{{ id }}</a><li>
-                <li class="page-item"><a class="page-link" href="{{ path('app_cameras_page', { 'id': ( id + 1) }) }}">{{ (id + 1) }}</a><li>
-                <li class="page-item"><a class="page-link"><span>&raquo;<span></a></li>
-            </ul>
-        </nav>
-    </div>
+    {% if numberPages > 1 %}
+        <div class="row justify-content-end mt-2">
+            <nav class="col-3">
+                <ul class="pagination">
+                    <li class="page-item"><a class="page-link" href="{{ path('app_lenses_page', { 'id': 1 }) }}"><span>&laquo;</span></a><li>
+                    
+                    {% if currentPage < 4 %}
+                        {% set start = 1 %}
+                    {% else %}
+                        {% set start = currentPage - 2 %}
+                    {% endif %}
+                    {% if numberPages - 2 > currentPage %}
+                        {% set stop = currentPage + 2 %}
+                    {% else %}
+                        {% set stop = numberPages %}
+                    {% endif %}
+
+                    {% for i in start..stop %}
+                        <li class="page-item"><a class="page-link" href="{{ path('app_lenses_page', { 'id': i }) }}">{{ i }}</a><li>
+                    {% endfor %}
+
+                    <li class="page-item"><a class="page-link" href="{{ path('app_lenses_page', { 'id': numberPages }) }}"><span>&raquo;<span></a></li>
+                </ul>
+            </nav>
+        </div>
+    {% endif %}
 {% endblock %}
 
 {% block menu %}

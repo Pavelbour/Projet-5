@@ -12,10 +12,11 @@
     use App\Form\CameraType;
     use App\Form\CamFilterType;
     use App\Service\FileUploader;
+    use App\Service\Pagination;
 
     class CameraController extends Controller
     {
-        public function camerasPage(Request $request, $id)
+        public function camerasPage(Request $request, Pagination $pagination, $id)
         {
             $camera = new Camera();
             $repository = $this
@@ -28,9 +29,12 @@
 
             if ($form->isSubmitted() && $form->isValid()) {
                 $listCameras = $repository->filter($id, $camera->getManufacturer(), $camera->getCategory());
-
+                $numberCameras = $repository->filterNumber($camera->getManufacturer(), $camera->getCategory());
+                $numberPages = $pagination->numberPages((int)$numberCameras, 2);
             } else {
                 $listCameras = $repository->filter($id);
+                $numberCameras = $repository->filterNumber();
+                $numberPages = $pagination->numberPages((int)$numberCameras, 2);
             }
 
             if ($id == 1) {
@@ -40,7 +44,8 @@
             return $this->render('Camera/cameras.html.twig', array(
                 'list' => $listCameras,
                 'id' => $id,
-                'form' => $form->createView()
+                'form' => $form->createView(),
+                'numberPages' => (int)$numberPages
             ));
         }
 

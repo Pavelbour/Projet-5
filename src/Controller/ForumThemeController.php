@@ -7,19 +7,12 @@
     use App\Entity\ForumMessage;
     use App\Entity\ForumTheme;
     use App\Form\ForumThemeType;
+    use App\Service\Pagination;
 
     class ForumThemeController extends Controller
     {
-        protected function numberPages($nombre, $epp)
-        {
-            if (($nombre % $epp) == 0) {
-                return $nombre / $epp;
-            } else {
-                return ($nombre / $epp) + 1;
-            }
-        }
 
-        public function theme(Request $request, $theme, $page, $mpage)
+        public function theme(Request $request, Pagination $pagination, $theme, $page, $mpage)
         {
             $em = $this->getDoctrine()->getManager();
             $tRepository = $em->getRepository(ForumTheme::class);
@@ -37,8 +30,8 @@
             $numberOfMessages = $mRepository->getNumber($currentTheme);
             $nT = $numberOfThemes[0]['t'];
             $nM = $numberOfMessages[0]['t'];
-            $pList = $this->numberPages($nT, 2);
-            $mList = $this->numberPages($nM, 2);
+            $pList = $pagination->numberPages($nT, 2);
+            $mList = $pagination->numberPages($nM, 2);
 
             $messages = $mRepository->findBy(
                 array('theme' => $currentTheme),

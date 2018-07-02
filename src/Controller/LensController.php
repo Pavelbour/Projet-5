@@ -12,10 +12,11 @@
     use App\Form\LensType;
     use App\Form\LensFilterType;
     use App\Service\FileUploader;
+    use App\Service\Pagination;
 
     class LensController extends Controller
     {
-        public function lensesPage(Request $request, $id)
+        public function lensesPage(Request $request, Pagination $pagination, $id)
         {
             $lens = new Lens();
             $repository = $this
@@ -29,9 +30,12 @@
 
             if ($form->isSubmitted() && $form->isValid()) {
                 $listLenses = $repository->filter($id, $lens->getManufacturer(), $lens->getMonture());
-
+                $numberLenses = $repository->filterNumber($lens->getManufacturer(), $lens->getMonture());
+                $numberPages = $pagination($numberLenses, 2);
             } else {
                 $listLenses = $repository->filter($id);
+                $numberLenses = $repository->filterNumber();
+                $numberPages = $pagination->numberPages($numberLenses, 2);
             }
 
             if ($id == 1) {
@@ -41,7 +45,8 @@
             return $this->render('Camera/lenses.html.twig', array(
                 'list' => $listLenses,
                 'id' => $id,
-                'form' => $form->createView()
+                'form' => $form->createView(),
+                'numberPages' => (int)$numberPages
             ));
         }
 
