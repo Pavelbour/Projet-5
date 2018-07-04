@@ -102,7 +102,7 @@
 
             if ($form->isSubmitted() && $form->isValid()) {
 
-                if ($lens->getImage != null){
+                if ($lens->getImage() != null){
                     $file = $lens->getImage();
 
                     $fileName = $fileUploader->upload($file);

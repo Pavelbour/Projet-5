@@ -51,6 +51,10 @@ app_delete_user:
     requirements:
         id: '\d+'
 
+app_delete_current_user:
+    path: /user/delete-current-user
+    controller: App\Controller\UserController::deleteCurrentUser
+
 app_cameras_page:
     path: /cameras/page/{id}
     controller: App\Controller\CameraController::camerasPage

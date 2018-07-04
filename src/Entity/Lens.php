@@ -21,7 +21,6 @@ class Lens
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Regex("[^/]++")
      */
     private $name;
 

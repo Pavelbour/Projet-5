@@ -60,6 +60,11 @@ class User implements UserInterface, \Serializable
      */
     private $forumMessages;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $avatar;
+
     public function __construct()
     {
         $this->cameraComments = new ArrayCollection();
@@ -246,6 +251,18 @@ class User implements UserInterface, \Serializable
                 $forumMessage->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAvatar()
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar($avatar)
+    {
+        $this->avatar = $avatar;
 
         return $this;
     }

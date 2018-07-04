@@ -6,11 +6,12 @@
     use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
     use App\Entity\User;
     use App\Form\UserType;
+    use App\Service\FileUploader;
 
     class UserController extends Controller
     {
 
-        public function addUser(Request $request, UserPasswordEncoderInterface $encoder)
+        public function addUser(Request $request, FileUploader $fileUploader, UserPasswordEncoderInterface $encoder)
         {
 
             $user = new User();
@@ -22,6 +23,12 @@
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid() && $form->get('password')->getData() == $form->get('confirmation')->getData()) {
+                if ($user->getAvatar() != null) {
+                    $file = $user->getAvatar();
+
+                    $fileName = $fileUploader->upload($file);
+                    $user->setAvatar($fileName);
+                }
 
                 $encoded = $encoder->encodePassword($user, $form->get('password')->getData());
                 $user->setPassword($encoded);
@@ -54,10 +61,13 @@
             ));
         }
 
-        public function modifyUser(Request $request, $id)
+        public function modifyUser(Request $request, FileUploader $fileUploader, $id)
         {
             $em = $this->getDoctrine()->getManager();
             $user = $em->getRepository(User::class)->find($id);
+            if ($user->getAvatar() != null){
+                $user->setAvatar(new File($this->getParameter('avatars').'/'.$user->getAvatar()));
+            }
             $form = $this->createForm(UserType::class, $user);
 
             $form->handleRequest($request);
@@ -76,11 +86,14 @@
             ));
         }
 
-        public function modifyCurrentUser(Request $request)
+        public function modifyCurrentUser(Request $request, FileUploader $fileUploader)
         {
             $em = $this->getDoctrine()->getManager();
             $user = $this->getUser();
             if ($user) {
+                if ($user->getAvatar() != null){
+                    $user->setAvatar(new File($this->getParameter('avatars').'/'.$user->getAvatar()));
+                }
                 $form = $this->createForm(UserType::class, $user);
                 $form->handleRequest($request);
 
@@ -120,5 +133,17 @@
             $em->flush();
             $request->getSession()->getFlashBag()->add('info', 'Le profil de l\'utilisateur a été effacé');
             return $this->redirectToRoute('app_list_of_users');
+        }
+
+        public function deleteCurrentUser(Request $request)
+        {
+            $user = $this->getUser();
+            $em = $this->getDoctrine()->getManager();
+            // force manual logout of logged in user
+            $this->get('security.token_storage')->setToken(null);
+            $em->remove($user);
+            $em->flush();
+            $request->getSession()->getFlashBag()->add('info', 'Votre profil a été effacé');
+            return $this->redirectToRoute('login');
         }
     }

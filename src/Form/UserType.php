@@ -3,6 +3,7 @@
 
     use Symfony\Component\Form\AbstractType;
     use Symfony\Component\Form\FormBuilderInterface;
+    use Symfony\Component\Form\Extension\Core\Type\FileType;
     use Symfony\Component\Form\Extension\Core\Type\TextType;
     use Symfony\Component\Form\Extension\Core\Type\PasswordType;
     use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -26,6 +27,9 @@
                 ->add('confirmation', PasswordType::class, array(
                     'label' => 'Confirmez votre mot de pass',
                     'mapped' => false
+                ))
+                ->add('avatar', FileType::class, array(
+                    'required' => false
                 ))
                 ->add('Enrigistrer', SubmitType::class);
         }
