@@ -51,13 +51,30 @@
             {{ form_end(form) }}
         </div>
     </div>
-    <div class="row">
+    <div class="row mb-5">
         <ul class="list-group col-12">
         {% for comment in comments %}
             <li class="list-group-item">
-                <h6>{{ comment.userId.username }}</h6>
-                <div>{{ comment.comment }}</div>
-                <div><i>{{ "Ajouté le " ~ comment.added|date('Y-m-d') ~ " à " ~ comment.added|date('H:m:s')}}</i></div>
+                <div class="row">
+                    <div class="col-2 border-right">
+                        <div class="font-weight-bold">{{ comment.userId.username }}</div>
+                        <div>
+                            {% if comment.userId.avatar !="" %}
+                                <img width="64px" src="{{ asset('img/avatars/' ~ comment.userId.avatar) }}" />
+                            {% else %}
+                                <img width="64px" src="{{ asset('img/avatars/' ~ 'avatar_default.png') }}" />
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-10">
+                        <h6>{{ comment.userId.username }}</h6>
+                        <div>{{ comment.comment }}</div>
+                        <div class="small"><i>{{ "Ajouté le " ~ comment.added|date('Y-m-d') ~ " à " ~ comment.added|date('H:m:s')}}</i></div>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a class="btn btn-danger btn-sm" href="{{ path('app_delete_camera_comment', {'id': comment.id, 'camId': camera.id }) }}">Effacer le commentaire</a>
+                        {% endif %}
+                    </div>
+                </div>
             </li>
         {% endfor %}
         </ul>

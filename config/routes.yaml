@@ -17,6 +17,10 @@ app_home:
     path: /
     controller: App\Controller\HomeController::home
 
+app_mentions:
+    path: /mentions
+    controller: App\Controller\HomeController::mentions
+
 app_admin:
     path: /admin
     controller: App\Controller\HomeController::admin
@@ -72,16 +76,23 @@ app_add_new_camera:
     controller: App\Controller\CameraController::addCamera
 
 app_modify_camera:
-    path: /modify-camera/{id}
+    path: /admin/modify-camera/{id}
     controller: App\Controller\CameraController::modifyCamera
     requirements:
         id: '\d+'
 
 app_delete_camera:
-    path: /delete-camera/{id}
+    path: /admin/delete-camera/{id}
     controller: App\Controller\CameraController::deleteCamera
     requirements:
         id: '\d+'
+
+app_delete_camera_comment:
+    path: /admin/delete-camera-comment/{id}/{camId}
+    controller: App\Controller\CameraController::deleteComment
+    requirements:
+        id: '\d+'
+        camId: '\d+'
 
 app_add_new_monture:
     path: /add-new-monture
@@ -114,6 +125,13 @@ app_delete_lens:
     controller: App\Controller\LensController::deleteLens
     requirements:
         id: '\d+'
+
+app_delete_lens_comment:
+    path: /admin/delete-lens-comment/{id}/{lensId}
+    controller: App\Controller\LensController::deleteComment
+    requirements:
+        id: '\d+'
+        lensId: '\d+'
 
 app_add_new_lens_manufacturer:
     path: /add-new-lens-manufacturer

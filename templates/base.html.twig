@@ -15,8 +15,7 @@
                             <a class="nav-link text-warning" href="{{ path('app_home') }}">Acceuil</a>
                             <a class="nav-link text-warning" href="{{ path('app_cameras_page', { 'id': 1 }) }}">Appareils photos</a>
                             <a class="nav-link text-warning" href="{{ path('app_lenses_page', { 'id': 1 }) }}">Objectifs</a>
-                            <a class="nav-link text-warning" href="{{ path('app_forum', { 'theme': 'Forum', 'page': 1, 'mpage': 1 }) }}">Forum</a>
-                            {% block menu %}{% endblock %}                            
+                            <a class="nav-link text-warning" href="{{ path('app_forum', { 'theme': 'Forum', 'page': 1, 'mpage': 1 }) }}">Forum</a>                          
                             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}                               
                                 <a class="nav-link text-warning" href="{{ path('logout') }}">Déconnexion</a>
                             {% else %}
@@ -34,19 +33,34 @@
                         <div class="row">
                             <div col-12>
                                 {% for message in app.session.flashbag.get('info') %}
-                                    <div class="alert alert-success">{{ message }}</div>
+                                    <div class="alert alert-success msg">{{ message }}</div>
                                 {% endfor %}
+
+                                <div class="alert alert-warning alert-dismissible">
+                                    Ce site utilise des coockies.
+                                    <button type="button" class="close" data-dismiss="alert">
+                                        <span>&times;</span>
+                                    </button>
+                                </div>
                             </div>
                         </div> 
                         {% block body %}{% endblock %}
-                        {% block javascripts %}
-                            <script src="../main.js"></script>
-                            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-                            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
-                            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
-                        {% endblock %}
+                        
                 </div>
             </div>
+            <nav class="navbar navbar-expand-md fixed-bottom navbar-dark bg-dark justify-content-end">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a  class="nav-link" href="{{ path('app_mentions') }}">Mentions legales</a>
+                    </li>
+                </ul>
+            </nav>
         </div>
+    {% block javascripts %}
+        <script src="{{ asset('main.js') }}"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    {% endblock %}
     </body>
 </html>

@@ -172,4 +172,15 @@
                 'id' => 1
             ));
         }
+
+        public function deleteComment($id, $camId)
+        {
+            $em = $this->getDoctrine()->getManager();
+            $comment = $em->getRepository(CameraComment::class)->find($id);
+            $em->remove($comment);
+            $em->flush();
+            return $this->redirectToRoute('app_camera', array(
+                'id' => $camId
+            ));
+        }
     }

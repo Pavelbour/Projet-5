@@ -63,4 +63,9 @@
             return $this->render('Camera/user.html.twig');
         }
 
+        public function mentions()
+        {
+            return $this->render('Camera/mentions.html.twig');
+        }
+
     }

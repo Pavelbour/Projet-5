@@ -57,7 +57,7 @@ class LensRepository extends ServiceEntityRepository
             ->from($this->_entityName, 'l');
 
         if ($manufacturer) {
-            $qb->andWhere('c.manufacturer = :manufacturer')
+            $qb->andWhere('l.manufacturer = :manufacturer')
                 ->setParameter('manufacturer', $manufacturer);
         }
         

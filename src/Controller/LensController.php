@@ -31,7 +31,7 @@
             if ($form->isSubmitted() && $form->isValid()) {
                 $listLenses = $repository->filter($id, $lens->getManufacturer(), $lens->getMonture());
                 $numberLenses = $repository->filterNumber($lens->getManufacturer(), $lens->getMonture());
-                $numberPages = $pagination($numberLenses, 2);
+                $numberPages = $pagination->numberPages($numberLenses, 2);
             } else {
                 $listLenses = $repository->filter($id);
                 $numberLenses = $repository->filterNumber();
@@ -175,6 +175,17 @@
             $request->getSession()->getFlashBag()->add('info', 'L\'objectif a été effacé');
             return $this->redirectToRoute('app_lenses_page', array(
                 'id' => 1
+            ));
+        }
+
+        public function deleteComment($id, $lensId)
+        {
+            $em = $this->getDoctrine()->getManager();
+            $comment = $em->getRepository(LensComment::class)->find($id);
+            $em->remove($comment);
+            $em->flush();
+            return $this->redirectToRoute('app_lens', array(
+                'id' => $lensId
             ));
         }
     }   

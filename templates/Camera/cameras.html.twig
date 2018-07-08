@@ -3,16 +3,27 @@
 {% block title %}Liste d'appareils{% endblock %}
 
 {% block body %}
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <ul class="navbar-nav">
+            <li class="nav-item">                
+                <a class="nav-link" href="{{ path('app_add_new_camera') }}">Ajouter un nouveau appareil</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('app_add_new_category') }}">Ajouter une nouvelle catégorie</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('app_add_new_manufacturer') }}">Ajouter une nouveau fabricant</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('app_add_new_monture') }}">Ajouter une nouvelle monture</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="" data-toggle="modal" data-target="#filter">Filtre</a>
+            </li>
+        </ul>
+    </nav>
+    
     <h1>Appareils photo</h1>
-
-    <div class="row justify-content-end">
-        <div class="col-1">
-            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#filter">
-                Filtre
-            </button>
-        </div>
-    </div>
-
 
     <div class="modal fade" id="filter" tabindex="-1">
         <div class="modal-dialog">
@@ -51,7 +62,7 @@
     </div>
     
     {% if numberPages > 1 %}
-        <div class="row justify-content-end mt-2">
+        <div class="row justify-content-end mt-2 mb-5">
             <nav class="col-3">
                 <ul class="pagination">
                     <li class="page-item"><a class="page-link" href="{{ path('app_cameras_page', { 'id': 1 }) }}"><span>&laquo;</span></a><li>
@@ -76,11 +87,4 @@
             </nav>
         </div>
     {% endif %}
-{% endblock %}
-
-{% block menu %}
-    <a class="nav-link text-warning" href="{{ path('app_add_new_camera') }}">Ajouter un nouveau appareil</a>
-    <a class="nav-link text-warning" href="{{ path('app_add_new_category') }}">Ajouter une nouvelle catégorie</a>
-    <a class="nav-link text-warning" href="{{ path('app_add_new_manufacturer') }}">Ajouter une nouveau fabricant</a>
-    <a class="nav-link text-warning" href="{{ path('app_add_new_monture') }}">Ajouter une nouvelle monture</a>
 {% endblock %}

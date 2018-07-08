@@ -63,6 +63,8 @@
                 }
             }
 
+            $breadcrumb = $this->breadcrumb($theme);
+
             return $this->render('Camera/forum.html.twig', array(
                 'theme' => $theme,
                 'list' => $list,
@@ -73,7 +75,8 @@
                 'page' => $page,
                 'mpage' => $mpage,
                 'plist' => (integer)$pList,
-                'mlist' => (integer)$mList
+                'mlist' => (integer)$mList,
+                'breadcrumb' => $breadcrumb
             ));
         }
 
@@ -102,5 +105,21 @@
                 'title' => 'Ajouter un nouveau thème',
                 'form' => $form->createView()
             ));
+        }
+
+        private function breadcrumb($theme)
+        {
+            $repository = $this->getDoctrine()->getManager()->getRepository(ForumTheme::class);
+            $breadcrumb = array();
+            $currentTheme = $repository->findByTheme($theme);
+            $currentTheme = $currentTheme[0];
+            for ($i=0; $currentTheme->getTheme() != 'Forum'; $i++)
+            {
+                $breadcrumb[$i] = $currentTheme->getTheme();
+                $theme = $repository->findByTheme($currentTheme->getThemeParent());
+                $currentTheme = $theme[0];
+            }
+            $breadcrumb[$i+1] = 'Forum';
+            return array_reverse($breadcrumb);
         }
     }

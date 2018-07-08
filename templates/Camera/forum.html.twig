@@ -5,6 +5,14 @@
 {% block body %}
     <h1>{{ theme }}</h1>
 
+    <nav>
+        <ol class="breadcrumb">
+        {% for item in breadcrumb %}
+            <li class="breadcrumb-item"><a href="{{ path('app_forum', { 'theme': item, 'page': 1, 'mpage': 1 }) }}">{{ item }}</a></li>
+        {% endfor %}
+        </ol>
+    </nav>
+
     {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
         <div class="row justify-content-end">
             <div class="col-3">
