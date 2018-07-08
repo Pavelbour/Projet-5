@@ -175,3 +175,19 @@ app_forum_delete_message:
     controller: App\Controller\ForumMessageController::deleteMessage
     requirements:
         id: '\d+'
+
+app_send_message_admin:
+    path: /user/send-message-admin
+    controller: App\Controller\MessageAdminController::addMessage
+
+app_display_messages_admin:
+    path: /admin/display-messages-admin/{page}
+    controller: App\Controller\MessageAdminController::displayMessages
+    requirements:
+        page: '\d+'
+
+app_delete_message_admin:
+    path: /admin/delete-message-admin/{id}
+    controller: App\Controller\MessageAdminController::deleteMessage
+    requirements:
+        id: '\d+'

@@ -16,17 +16,6 @@
                             <a class="nav-link text-warning" href="{{ path('app_cameras_page', { 'id': 1 }) }}">Appareils photos</a>
                             <a class="nav-link text-warning" href="{{ path('app_lenses_page', { 'id': 1 }) }}">Objectifs</a>
                             <a class="nav-link text-warning" href="{{ path('app_forum', { 'theme': 'Forum', 'page': 1, 'mpage': 1 }) }}">Forum</a>                          
-                            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}                               
-                                <a class="nav-link text-warning" href="{{ path('logout') }}">Déconnexion</a>
-                            {% else %}
-                                <a class="nav-link text-warning" href="{{ path('login') }}">Connexion</a>
-                                <a class="nav-link text-warning" href="{{ path('app_signup') }}">Inscription</a>
-                            {% endif %}
-                            {% if is_granted('ROLE_ADMIN') %}
-                                <a class="nav-link text-warning" href="{{ path('app_admin') }}">Espace admin</a>
-                            {% elseif is_granted('ROLE_USER') %}
-                                <a class="nav-link text-warning" href="{{ path('app_user') }}">Espace Utilisateur</a>
-                            {% endif %}
                         </nav>
                 </div>
                 <div class="col-lg-10">
@@ -50,6 +39,30 @@
             </div>
             <nav class="navbar navbar-expand-md fixed-bottom navbar-dark bg-dark justify-content-end">
                 <ul class="navbar-nav">
+                    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_send_message_admin') }}">Contact</a>
+                        </li>
+                        <li class="nav-item">                          
+                            <a class="nav-link" href="{{ path('logout') }}">Déconnexion</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('login') }}">Connexion</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_signup') }}">Inscription</a>
+                        </li>
+                    {% endif %}
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_admin') }}">Espace admin</a>
+                        </li>
+                    {% elseif is_granted('ROLE_USER') %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_user') }}">Espace Utilisateur</a>
+                        </li>
+                    {% endif %}
                     <li class="nav-item">
                         <a  class="nav-link" href="{{ path('app_mentions') }}">Mentions legales</a>
                     </li>

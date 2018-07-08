@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Messages{% endblock %}
+
+{% block body %}
+
+    <h1>Messages</h1>
+
+    <div class="row">
+        <ul class="list-group col-12 mt-2">
+            {% for message in list %}
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-2 border-right">
+                            <div class="font-weight-bold">{{ message.user.username }}</div>
+                            <div>
+                            {% if message.user.avatar !="" %}
+                                <img width="64px" src="{{ asset('img/avatars/' ~ message.user.avatar) }}" />
+                            {% else %}
+                                <img width="64px" src="{{ asset('img/avatars/' ~ 'avatar_default.png') }}" />
+                            {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-10">
+                            <div class="row">
+                                <div class="col-12">
+                                    {{ message.message }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 font-weight-light small">
+                                    Envoyé le <span class="font-italic">{{ message.date|date('d/m/y') }}</span> à <span class="font-italic">{{ message.date|date('h:m:s') }}</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <a class="btn btn-sm btn-danger" href="{{ path('app_delete_message_admin', { 'id': message.id }) }}">Effacer le message</a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    {% if numberpages > 1 %}
+        <div class="row justify-content-end mt-2">
+            <nav class="col-3">
+                <ul class="pagination">
+                    <li class="page-item"><a class="page-link" href="{{ path('app_display_messages_admin', { 'page': 1 }) }}"><span>&laquo;</span></a><li>
+                    
+                    {% if page < 4 %}
+                        {% set start = 1 %}
+                    {% else %}
+                        {% set start = page - 2 %}
+                    {% endif %}
+                    {% if numberpages - 2 > page %}
+                        {% set stop = page + 2 %}
+                    {% else %}
+                        {% set stop = numberpages %}
+                    {% endif %}
+
+                    {% for i in start..stop %}
+                        <li class="page-item"><a class="page-link" href="{{ path('app_display_messages_admin', { 'page': i }) }}">{{ i }}</a><li>
+                    {% endfor %}
+
+                    <li class="page-item"><a class="page-link" href="{{ path('app_display_messages_admin', { 'page': numberpages }) }}"><span>&raquo;<span></a></li>
+                </ul>
+            </nav>
+        </div>
+    {% endif %}
+{% endblock %}

@@ -65,11 +65,17 @@ class User implements UserInterface, \Serializable
      */
     private $avatar;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\MessageAdmin", mappedBy="user", orphanRemoval=true)
+     */
+    private $messageAdmins;
+
     public function __construct()
     {
         $this->cameraComments = new ArrayCollection();
         $this->lensComments = new ArrayCollection();
         $this->forumMessages = new ArrayCollection();
+        $this->messageAdmins = new ArrayCollection();
     }
 
     public function getId()
@@ -263,6 +269,37 @@ class User implements UserInterface, \Serializable
     public function setAvatar($avatar)
     {
         $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|MessageAdmin[]
+     */
+    public function getMessageAdmins(): Collection
+    {
+        return $this->messageAdmins;
+    }
+
+    public function addMessageAdmin(MessageAdmin $messageAdmin): self
+    {
+        if (!$this->messageAdmins->contains($messageAdmin)) {
+            $this->messageAdmins[] = $messageAdmin;
+            $messageAdmin->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessageAdmin(MessageAdmin $messageAdmin): self
+    {
+        if ($this->messageAdmins->contains($messageAdmin)) {
+            $this->messageAdmins->removeElement($messageAdmin);
+            // set the owning side to null (unless already changed)
+            if ($messageAdmin->getUser() === $this) {
+                $messageAdmin->setUser(null);
+            }
+        }
 
         return $this;
     }
