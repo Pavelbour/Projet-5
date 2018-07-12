@@ -68,6 +68,7 @@
             ->getRepository(CameraComment::class)
             ->findByCameraId($camera);
 
+
             if ($form->isSubmitted() && $form->isValid() && $this->getUser()) {
 
                 $em = $this->getDoctrine()->getManager();
@@ -93,6 +94,7 @@
 
         public function addCamera(Request $request, FileUploader $fileUploader)
         {
+            // adds a new camera
 
             $camera = new Camera();
             $form = $this->createForm(CameraType::class, $camera);
@@ -108,8 +110,10 @@
                 }
                 $forum = new ForumTheme();
                 $forum->setTheme($camera->getCameraName());
-                $forum->setThemeParent($camera->getManufacturer()->getManufacturer());
                 $em = $this->getDoctrine()->getManager();
+                $forum->setParentId($camera->getManufacturer()->getTheme()->getId());
+                $camera->setTheme($forum);
+                // persists the new lens into the database
                 $em->persist($forum);
                 $em->persist($camera);
                 $em->flush();
@@ -161,10 +165,11 @@
 
         public function deleteCamera(Request $request, $id)
         {
+            // deletes a camera
             $em = $this->getDoctrine()->getManager();
             $camera = $em->getRepository(Camera::class)->find($id);
-            $theme = $em->getRepository(ForumTheme::class)->findByTheme($camera->getCameraName());
-            $theme[0]->setThemeParent('Archives');
+            $theme = $em->getRepository(ForumTheme::class)->find($camera->getTheme()->getID());
+            $theme->setParentId(7);
             $em->remove($camera);
             $em->flush();
             $request->getSession()->getFlashBag()->add('info', 'L\'appareil a été effacé');

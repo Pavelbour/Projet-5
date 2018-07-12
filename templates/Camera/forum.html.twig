@@ -1,14 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Forum - {{ theme }}{% endblock %}
+{% block title %}Forum - {{ currentTheme.theme }}{% endblock %}
 
 {% block body %}
-    <h1>{{ theme }}</h1>
+    <h1>{{ currentTheme.theme }}</h1>
 
     <nav>
         <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('app_forum', { 'id': 1, 'page': 1, 'mpage': 1 }) }}">Forum</a></li>
         {% for item in breadcrumb %}
-            <li class="breadcrumb-item"><a href="{{ path('app_forum', { 'theme': item, 'page': 1, 'mpage': 1 }) }}">{{ item }}</a></li>
+            <li class="breadcrumb-item"><a href="{{ path('app_forum', { 'id': item.id, 'page': 1, 'mpage': 1 }) }}">{{ item.theme }}</a></li>
         {% endfor %}
         </ol>
     </nav>
@@ -16,12 +17,12 @@
     {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
         <div class="row justify-content-end">
             <div class="col-3">
-                <a class="btn btn-warning" href="{{ path('app_forum_add_theme', { 'theme': theme }) }}">
+                <a class="btn btn-warning" href="{{ path('app_forum_add_theme', { 'id': currentTheme.id }) }}">
                     Ajouter un nouveau theme
                 </a>
             </div>
             <div class="col-2">
-                <a class="btn btn-warning" href="{{ path('app_forum_add_message', { 'theme': theme }) }}">
+                <a class="btn btn-warning" href="{{ path('app_forum_add_message', { 'theme': currentTheme.theme }) }}">
                     Nouveau message
                 </a>
             </div>
@@ -34,7 +35,7 @@
                 <li class="list-group-item">
                     <div class="row">
                         <div class="col-12">
-                            <a href="{{ path('app_forum', { 'theme': theme.theme, 'page': 1, 'mpage': 1 }) }}">{{ theme.theme }}</a>
+                            <a href="{{ path('app_forum', { 'id': theme.id, 'page': 1, 'mpage': 1 }) }}">{{ theme.theme }}</a>
                         </div>
                     </div>
                     <div class="row">
@@ -52,9 +53,9 @@
 
     {% if plist > 1 %}
         <div class="row justify-content-end mt-2">
-            <nav class="col-2">
+            <nav class="col-3">
                 <ul class="pagination">
-                    <li class="page-item"><a class="page-link" href="{{ path('app_forum', { 'theme': theme, 'page': 1, 'mpage': 1 }) }}"><span>&laquo;</span></a><li>
+                    <li class="page-item"><a class="page-link" href="{{ path('app_forum', { 'id': currentTheme.id, 'page': 1, 'mpage': 1 }) }}"><span>&laquo;</span></a><li>
                     {% if page < 4 %}
                         {% set start = 1 %}
                     {% else %}
@@ -67,10 +68,10 @@
                     {% endif %}
 
                     {% for i in start..stop %}
-                        <li class="page-item"><a class="page-link" href="{{ path('app_forum', { 'theme': theme, 'page': i, 'mpage': 1 }) }}">{{ i }}</a><li>
+                        <li class="page-item"><a class="page-link" href="{{ path('app_forum', { 'id': currentTheme.id, 'page': i, 'mpage': 1 }) }}">{{ i }}</a><li>
                     {% endfor %}
 
-                    <li class="page-item"><a class="page-link" href="{{ path('app_forum', { 'theme': theme, 'page': plist, 'mpage': 1 }) }}"><span>&raquo;<span></a></li>
+                    <li class="page-item"><a class="page-link" href="{{ path('app_forum', { 'id': currentTheme.id, 'page': plist, 'mpage': 1 }) }}"><span>&raquo;<span></a></li>
                 </ul>
             </nav>
         </div>

@@ -28,6 +28,12 @@ class LensManufacturer
      */
     private $lens;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\ForumTheme", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $theme;
+
     public function __construct()
     {
         $this->lens = new ArrayCollection();
@@ -77,6 +83,18 @@ class LensManufacturer
                 $len->setManufacturer(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTheme(): ?ForumTheme
+    {
+        return $this->theme;
+    }
+
+    public function setTheme(ForumTheme $theme): self
+    {
+        $this->theme = $theme;
 
         return $this;
     }

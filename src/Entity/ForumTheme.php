@@ -24,11 +24,6 @@ class ForumTheme
     private $theme;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $themeParent;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\ForumMessage", mappedBy="theme")
      */
     private $user;
@@ -37,6 +32,11 @@ class ForumTheme
      * @ORM\OneToMany(targetEntity="App\Entity\ForumMessage", mappedBy="theme", orphanRemoval=true)
      */
     private $forumMessages;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $parentId;
 
     public function __construct()
     {
@@ -57,18 +57,6 @@ class ForumTheme
     public function setTheme(string $theme): self
     {
         $this->theme = $theme;
-
-        return $this;
-    }
-
-    public function getThemeParent(): ?string
-    {
-        return $this->themeParent;
-    }
-
-    public function setThemeParent(string $themeParent): self
-    {
-        $this->themeParent = $themeParent;
 
         return $this;
     }
@@ -131,6 +119,18 @@ class ForumTheme
                 $forumMessage->setTheme(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getParentId(): ?int
+    {
+        return $this->parentId;
+    }
+
+    public function setParentId(int $parentId): self
+    {
+        $this->parentId = $parentId;
 
         return $this;
     }

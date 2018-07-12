@@ -94,6 +94,7 @@
 
         public function addLens(Request $request, FileUploader $fileUploader)
         {
+            // adds a new lens
 
             $lens = new Lens();
             $form = $this->createForm(LensType::class, $lens);
@@ -110,7 +111,9 @@
                 }
                 $forum = new ForumTheme();
                 $forum->setTheme($lens->getName());
-                $forum->setThemeParent('Objectifs de '.$lens->getManufacturer()->getManufacturer());
+                $forum->setParentId($lens->getManufacturer()->getTheme()->getId());
+                $lens->setTheme($forum);
+                // persists the new lens into the database
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($forum);
                 $em->persist($lens);
@@ -166,10 +169,11 @@
         
         public function deleteLens(Request $request, $id)
         {
+            // deletes a lens
             $em = $this->getDoctrine()->getManager();
             $lens = $em->getRepository(Lens::class)->find($id);
-            $theme = $em->getRepository(ForumTheme::class)->findByTheme($lens->getName());
-            $theme[0]->setThemeParent('Archives');
+            $theme = $em->getRepository(ForumTheme::class)->find($lens->getTheme()->getId());
+            $theme->setParentId(7);
             $em->remove($lens);
             $em->flush();
             $request->getSession()->getFlashBag()->add('info', 'L\'objectif a été effacé');

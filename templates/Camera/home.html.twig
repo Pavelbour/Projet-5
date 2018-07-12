@@ -16,7 +16,7 @@
                     {% if camera.image != "" %}
                         <img class="card-img-top" src="{{ asset('img/' ~ camera.image) }}" />
                     {% else %}
-                        <p class="card-text">Pas d'image</p>
+                        <img class="card-img-top" src="{{ asset('img/' ~ 'camera_default.svg') }}" />
                     {% endif %}
                     <div class="card-body">
                         <h5 class="cart-title">{{ camera.manufacturer.manufacturer ~ " " ~ camera.CameraName }}</h5>
@@ -37,7 +37,7 @@
                     {% if lens.image != "" %}
                         <img class="card-img-top" src="{{ asset('img/' ~ lens.image) }}" />
                     {% else %}
-                        <p class="card-text">Pas d'image</p>
+                        <img class="card-img-top" src="{{ asset('img/' ~ 'lens_default.svg') }}" />
                     {% endif %}
                     <div class="card-body">
                         <h5 class="card-title">

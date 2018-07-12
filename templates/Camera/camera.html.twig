@@ -35,7 +35,7 @@
             {% if camera.image !="" %}
                 <img width="300px" src="{{ asset('img/' ~ camera.image) }}" />
             {% else %}
-                Pas d'image
+                <img width="300px" src="{{ asset('img/' ~ 'camera_default.svg') }}" />
             {% endif %}
         </div>
     </div>
@@ -43,7 +43,7 @@
         {{ camera.description }}
     </div>
     <div class="row justify-content-center">
-        <a class="btn btn-warning" href="{{ path('app_forum', {'theme': camera.CameraName, 'page': 1, 'mpage': 1 }) }}">Forum</a>
+        <a class="btn btn-warning" href="{{ path('app_forum', {'id': camera.theme.id, 'page': 1, 'mpage': 1 }) }}">Forum</a>
     </div>
     <div class="row">
         <div class="col-12">

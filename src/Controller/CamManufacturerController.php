@@ -15,6 +15,7 @@ class CamManufacturerController extends Controller
 
     public function addManufacturer(Request $request)
     {
+        // adds a new manufacturer of cameras
         $manufacturer = new CamManufacturer();
 
         $form = $this->createFormBuilder($manufacturer)
@@ -28,8 +29,9 @@ class CamManufacturerController extends Controller
 
             $forum = new ForumTheme();
             $forum->setTheme($manufacturer->getManufacturer());
-            $forum->setThemeParent('Appareils Photos');
+            $forum->setParentId(3);
             $em = $this->getDoctrine()->getManager();
+            $manufacturer->setTheme($forum);
             $em->persist($forum);
             $em->persist($manufacturer);
             $em->flush();

@@ -14,6 +14,7 @@ class LensManufacturerController extends Controller
 
     public function addManufacturer(Request $request)
     {
+        // adds a nem manufacturer of lenses
         $manufacturer = new LensManufacturer();
 
         $form = $this->createFormBuilder($manufacturer)
@@ -24,8 +25,9 @@ class LensManufacturerController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $forum = new ForumTheme();
-            $forum->setTheme('Objectifs de '.$manufacturer->getManufacturer());
-            $forum->setThemeParent('Objectifs');
+            $forum->setTheme($manufacturer->getManufacturer());
+            $forum->setParentId(4);
+            $manufacturer->setTheme($forum);
             $em = $this->getDoctrine()->getManager();
             $em->persist($forum);
             $em->persist($manufacturer);

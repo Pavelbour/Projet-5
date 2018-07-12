@@ -138,9 +138,10 @@ app_add_new_lens_manufacturer:
     controller: App\Controller\LensManufacturerController::addManufacturer
 
 app_forum:
-    path: /forum/{theme}/{page}/{mpage}
+    path: /forum/{id}/{page}/{mpage}
     controller: App\Controller\ForumThemeController::theme
     requirements:
+        id: '\d+'
         page: '\d+'
         mpage: '\d+'
         
@@ -157,8 +158,10 @@ app_add_new_manufacturer:
     controller: App\Controller\CamManufacturerController::addManufacturer
 
 app_forum_add_theme:
-    path: /user/add-new-theme/{theme}
+    path: /user/add-new-theme/{id}
     controller: App\Controller\ForumThemeController::addTheme
+    requirements:
+        id: '\d+'
 
 app_forum_add_message:
     path: /user/forum-add-new-message/{theme}

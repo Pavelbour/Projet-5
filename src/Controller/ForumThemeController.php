@@ -12,21 +12,21 @@
     class ForumThemeController extends Controller
     {
 
-        public function theme(Request $request, Pagination $pagination, $theme, $page, $mpage)
+        public function theme(Request $request, Pagination $pagination, $id, $page, $mpage)
         {
             $em = $this->getDoctrine()->getManager();
             $tRepository = $em->getRepository(ForumTheme::class);
             $mRepository = $em->getRepository(ForumMessage::class);
-            $currentTheme = $tRepository->findOneByTheme($theme);
+            $currentTheme = $tRepository->find($id);
 
             $list = $tRepository->findBy(
-                array('themeParent' => $theme),
+                array('parentId' => $id),
                 array('id' => 'DESC'),
                 2,
                 ($page-1) * 2
             );
 
-            $numberOfThemes = $tRepository->getNumber($theme);
+            $numberOfThemes = $tRepository->getNumber($id);
             $numberOfMessages = $mRepository->getNumber($currentTheme);
             $nT = $numberOfThemes[0]['t'];
             $nM = $numberOfMessages[0]['t'];
@@ -46,7 +46,7 @@
 
             foreach ($list as $element) {
                 $mNumber = $mRepository->getNumber($element);
-                $tNumber = $tRepository->getNumber($element->getTheme());
+                $tNumber = $tRepository->getNumber($element->getId());
 
                 $number[$element->getTheme()] = $mNumber[0]['t'];
                 $themes[$element->getTheme()] = $tNumber[0]['t'];
@@ -63,10 +63,10 @@
                 }
             }
 
-            $breadcrumb = $this->breadcrumb($theme);
+            $breadcrumb = $this->breadcrumb($id);
 
             return $this->render('Camera/forum.html.twig', array(
-                'theme' => $theme,
+                'currentTheme' => $currentTheme,
                 'list' => $list,
                 'messages' => $messages,
                 'lastmessages' => $lastMessages,
@@ -80,22 +80,23 @@
             ));
         }
 
-        public function addTheme(Request $request, $theme)
+        public function addTheme(Request $request, $id)
         {
+            // add a new theme to the forum
             $newTheme = new ForumTheme();
             $em = $this->getDoctrine()->getManager();
             $form = $this->createForm(ForumThemeType::class, $newTheme);
 
             $form->handleRequest($request);
 
-            if ($form->isSubmitted() && $form->isValid()){
-                $newTheme->setThemeParent($theme);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $newTheme->setParentId($id);
                 $em->persist($newTheme);
                 $em->flush();
                 $request->getSession()->getFlashBag()->add('info', 'Le nouveau thème a été ajouté.');
 
                 return $this->redirectToRoute('app_forum', array(
-                    'theme' => $theme,
+                    'id' => $id,
                     'page' => 1,
                     'mpage' => 1
                 ));
@@ -107,19 +108,17 @@
             ));
         }
 
-        private function breadcrumb($theme)
+        private function breadcrumb($id)
         {
+            // Create a breadcrumb
             $repository = $this->getDoctrine()->getManager()->getRepository(ForumTheme::class);
             $breadcrumb = array();
-            $currentTheme = $repository->findByTheme($theme);
-            $currentTheme = $currentTheme[0];
-            for ($i=0; $currentTheme->getTheme() != 'Forum'; $i++)
+            $currentTheme = $repository->find($id);
+            for ($i=0; $currentTheme->getParentId() != 0; $i++)
             {
-                $breadcrumb[$i] = $currentTheme->getTheme();
-                $theme = $repository->findByTheme($currentTheme->getThemeParent());
-                $currentTheme = $theme[0];
+                $breadcrumb[$i] = $currentTheme;
+                $currentTheme = $repository->find($currentTheme->getParentId());
             }
-            $breadcrumb[$i+1] = 'Forum';
             return array_reverse($breadcrumb);
         }
     }

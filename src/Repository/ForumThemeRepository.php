@@ -19,12 +19,13 @@ class ForumThemeRepository extends ServiceEntityRepository
         parent::__construct($registry, ForumTheme::class);
     }
 
-    public function getNumber($theme)
+    public function getNumber($id)
     {
+        // returns the number of the subthemes
         return $this
             ->_em
-            ->createQuery('SELECT COUNT(th) t FROM App\Entity\ForumTheme th WHERE th.themeParent = :theme')
-            ->setParameter('theme', $theme)
+            ->createQuery('SELECT COUNT(th) t FROM App\Entity\ForumTheme th WHERE th.parentId = :id')
+            ->setParameter('id', $id)
             ->getResult();
     }
 

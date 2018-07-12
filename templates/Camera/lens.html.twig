@@ -36,9 +36,9 @@
         </div>
         <div class="col-md-4">
             {% if lens.image != "" %}
-                <img src="{{ asset('img/' ~ lens.image) }}" />
+                <img width="300px" src="{{ asset('img/' ~ lens.image) }}" />
             {% else %}
-                Pas d'image
+                <img width="300px" src="{{ asset('img/' ~ 'lens_default.svg') }}" />
             {% endif %}
         </div>
     </div>
@@ -46,7 +46,7 @@
         {{ lens.description }}
     </div>
     <div class="row justify-content-center">
-        <a class="btn btn-warning" href="{{ path('app_forum', { 'theme': lens.name, 'page': 1, 'mpage': 1 }) }}">Forum</a>
+        <a class="btn btn-warning" href="{{ path('app_forum', { 'id': lens.theme.id, 'page': 1, 'mpage': 1 }) }}">Forum</a>
     </div>
     <div class="row">
         <div class="col-12">

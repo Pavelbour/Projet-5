@@ -43,7 +43,7 @@
                 {% if lens.image != "" %}
                     <img class="card-img-top" src="{{ asset('img/' ~ lens.image) }}" />
                 {% else %}
-                    <p class="card-text">Pas d'image</p>
+                    <img class="card-img-top" src="{{ asset('img/' ~ 'lens_default.svg') }}" />
                 {% endif %}
                     <div class="card-body">
                         <h5 class="card-title">
