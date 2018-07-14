@@ -78,7 +78,7 @@
                 $comment->setAdded($date);
                 $em->persist($comment);
                 $em->flush();
-                $request->getSession()->getFlashBag()->add('info', 'Le commentaire a été publié');
+                $this->addFlash('info', 'Le commentaire a été publié');
 
                 return $this->redirectToRoute('app_camera', array(
                     'id' => $id
@@ -113,11 +113,11 @@
                 $em = $this->getDoctrine()->getManager();
                 $forum->setParentId($camera->getManufacturer()->getTheme()->getId());
                 $camera->setTheme($forum);
-                // persists the new lens into the database
+                // persists the new camera into the database
                 $em->persist($forum);
                 $em->persist($camera);
                 $em->flush();
-                $request->getSession()->getFlashBag()->add('info', 'L\'appareil a été ajouté');
+                $this->addFlash('info', 'L\'appareil a été ajouté');
 
                 return $this->redirectToRoute('app_camera', array(
                     'id' => $camera->getId()
@@ -132,6 +132,7 @@
 
         public function modifyCamera(Request $request, FileUploader $fileUploader, $id)
         {
+            // modify a camera
             $em = $this->getDoctrine()->getManager();
             $camera = $em->getRepository(Camera::class)->find($id);
             if ($camera->getImage() != null){
@@ -150,7 +151,7 @@
                 }
 
                 $em->flush();
-                $request->getSession()->getFlashBag()->add('info', 'L\'appareil a été modifié');
+                $this->addFlash('info', 'L\'appareil a été modifié');
 
                 return $this->redirectToRoute('app_camera', array(
                     'id' => $camera->getId()
@@ -172,7 +173,7 @@
             $theme->setParentId(7);
             $em->remove($camera);
             $em->flush();
-            $request->getSession()->getFlashBag()->add('info', 'L\'appareil a été effacé');
+            $this->addFlash('info', 'L\'appareil a été effacé');
             return $this->redirectToRoute('app_cameras_page', array(
                 'id' => 1
             ));
@@ -180,10 +181,12 @@
 
         public function deleteComment($id, $camId)
         {
+            // deletes a comment
             $em = $this->getDoctrine()->getManager();
             $comment = $em->getRepository(CameraComment::class)->find($id);
             $em->remove($comment);
             $em->flush();
+            $this->addFlash('info', 'Le commentaire a été effacé.');
             return $this->redirectToRoute('app_camera', array(
                 'id' => $camId
             ));

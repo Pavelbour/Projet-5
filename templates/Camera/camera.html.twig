@@ -69,7 +69,7 @@
                     <div class="col-10">
                         <h6>{{ comment.userId.username }}</h6>
                         <div>{{ comment.comment }}</div>
-                        <div class="small"><i>{{ "Ajouté le " ~ comment.added|date('Y-m-d') ~ " à " ~ comment.added|date('H:m:s')}}</i></div>
+                        <div class="small"><i>{{ "Ajouté le " ~ comment.added|date('Y-m-d') ~ " à " ~ comment.added|date('H:i:s')}}</i></div>
                         {% if is_granted('ROLE_ADMIN') %}
                             <a class="btn btn-danger btn-sm" href="{{ path('app_delete_camera_comment', {'id': comment.id, 'camId': camera.id }) }}">Effacer le commentaire</a>
                         {% endif %}

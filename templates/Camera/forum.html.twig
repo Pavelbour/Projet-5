@@ -22,7 +22,7 @@
                 </a>
             </div>
             <div class="col-2">
-                <a class="btn btn-warning" href="{{ path('app_forum_add_message', { 'theme': currentTheme.theme }) }}">
+                <a class="btn btn-warning" href="{{ path('app_forum_add_message', { 'id': currentTheme.id }) }}">
                     Nouveau message
                 </a>
             </div>
@@ -91,6 +91,11 @@
                                 <img width="64px" src="{{ asset('img/avatars/' ~ 'avatar_default.png') }}" />
                             {% endif %}
                             </div>
+                            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                                <div>
+                                    <a class="btn btn-success btn-sm" href="{{ path('app_add_message_prive', { 'id': message.user.id }) }}">Message privé</a>
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="col-10">
                             <div class="row">
@@ -104,7 +109,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-12 font-weight-light small">
-                                    Publié le <span class="font-italic">{{ message.added|date('d/m/y') }}</span> à <span class="font-italic">{{ message.added|date('h:m:s') }}</span>
+                                    Publié le <span class="font-italic">{{ message.added|date('d/m/y') }}</span> à <span class="font-italic">{{ message.added|date('h:i:s') }}</span>
                                 </div>
                             </div>
                         </div>

@@ -10,8 +10,9 @@
 
     class ForumMessageController extends Controller
     {
-        public function addMessage(Request $request, $theme)
+        public function addMessage(Request $request, $id)
         {
+            // adds a new message
             $message = new ForumMessage();
             $em = $this->getDoctrine()->getManager();
             $repository = $em->getRepository(ForumTheme::class);
@@ -22,14 +23,14 @@
             if ($form->isSubmitted() && $form->isValid()) {
                 $message->setAdded(new \DateTime());
                 $message->setUser($this->getUser());
-                $themes = $repository->findByTheme($theme);
-                $message->setTheme($themes[0]);
+                $theme = $repository->find($id);
+                $message->setTheme($theme);
                 $em->persist($message);
                 $em->flush();
 
-                $request->getSession()->getFlashBag()->add('info', 'Le message a été ajouté.');
+                $this->addFlash('info', 'Le message a été ajouté.');
                 return $this->redirectToRoute('app_forum', array(
-                    'theme' => $theme,
+                    'id' => $theme->getId(),
                     'page' => 1,
                     'mpage' => 1
                 ));
@@ -43,6 +44,7 @@
 
         public function modifyMessage(Request $request, $id)
         {
+            // modify a message
             $em = $this->getDoctrine()->getManager();
             $repository = $em->getRepository(ForumMessage::class);
             $message = $repository->find($id);
@@ -53,7 +55,7 @@
             if ($form->isSubmitted() && $form->isValid()) {
                 $em->flush();
 
-                $request->getSession()->getFlashBag()->add('info', 'Le message a été modifié.');
+                $this->addFlash('info', 'Le message a été modifié.');
                 return $this->redirectToRoute('app_admin');
             }
 
@@ -65,12 +67,13 @@
 
         public function deleteMessage(Request $request, $id)
         {
+            // deletes a message
             $em = $this->getDoctrine()->getManager();
             $message = $em->getRepository(ForumMessage::class)->find($id);
             $em->remove($message);
             $em->flush();
 
-            $request->getSession()->getFlashBag()->add('info', 'Le message a été effacé.');
+            $this->addFlash('info', 'Le message a été effacé.');
             return $this->redirectToRoute('app_admin');
         }
     }

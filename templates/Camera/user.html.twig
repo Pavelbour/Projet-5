@@ -3,20 +3,32 @@
 {% block title %}Espase Utilisateur{% endblock %}
 
 {% block body %}
+    <meta name="robots" content="noindex" />
     <div class="row">
         <h1 class="col-12">Tableau de bord</h1>
     </div>
     <div class="row">
-        <div class="col-lg-3 card text-center">
-            <div class="card-body">
-                <h5 class="card-title">{{ app.user.username }}</h5>
-                <h6 class="card-subtitle mb-2 text-muted">{{ app.user.email }}</div>
-                <a class="btn sm-btn btn-primary mb-2" href="{{ path('app_modify_carrent_user') }}">Modifiér mon profil</a>
+        <div class="col-lg-3 col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">{{ app.user.username }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ app.user.email }}</div>
+                    <a class="btn sm-btn btn-primary mb-2" href="{{ path('app_modify_carrent_user') }}">Modifiér mon profil</a>
+                </div>
             </div>
         </div>
-        <div class="col-lg-3 card text-center">
-            <div class="card-body">
-                <a class="btn sm-btn btn-primary mb-2" href="{{ path('app_delete_current_user') }}">Effacer mon profil</a>
+        <div class="col-lg-3 col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <a class="btn sm-btn btn-primary mb-2" href="{{ path('app_delete_current_user') }}">Effacer mon profil</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <a class="btn sm-btn btn-primary mb-2" href="{{ path('app_messages_private') }}">Messages privés</a>
+                </div>
             </div>
         </div>
     </div>

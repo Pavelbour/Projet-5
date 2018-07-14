@@ -21,16 +21,20 @@
                 <div class="col-lg-10">
                         <div class="row">
                             <div col-12>
-                                {% for message in app.session.flashbag.get('info') %}
+                                {% for message in app.flashes('info') %}
                                     <div class="alert alert-success msg">{{ message }}</div>
                                 {% endfor %}
 
-                                <div class="alert alert-warning alert-dismissible">
-                                    Ce site utilise des coockies.
-                                    <button type="button" class="close" data-dismiss="alert">
-                                        <span>&times;</span>
-                                    </button>
-                                </div>
+                                {% if  not app.session.has('cookiesannouncement') %}
+                                    <div class="alert alert-warning alert-dismissible">
+                                        Ce site utilise des coockies.
+                                        <a class="btn btn-sm btn-success" href="{{ path('app_cookies') }}">J'accèpte</a>
+                                        <a class="btn btn-sm btn-success" href="{{ path('app_refuse_cookies') }}">Je refuse</a>
+                                        <button type="button" class="close" data-dismiss="alert">
+                                            <span>&times;</span>
+                                        </button>
+                                    </div>
+                                {% endif %}
                             </div>
                         </div> 
                         {% block body %}{% endblock %}

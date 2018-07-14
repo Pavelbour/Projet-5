@@ -164,8 +164,10 @@ app_forum_add_theme:
         id: '\d+'
 
 app_forum_add_message:
-    path: /user/forum-add-new-message/{theme}
+    path: /user/forum-add-new-message/{id}
     controller: App\Controller\ForumMessageController::addMessage
+    requirements:
+        id: '\d+'
 
 app_forum_modify_message:
     path: /admin/forum-modify-message/{id}
@@ -194,3 +196,21 @@ app_delete_message_admin:
     controller: App\Controller\MessageAdminController::deleteMessage
     requirements:
         id: '\d+'
+
+app_add_message_prive:
+    path: /user/send-message-prive/{id}
+    controller: App\Controller\MessagePrivateController::addMessage
+    requirements:
+        id: '\d+'
+
+app_messages_private:
+    path: /user/messages-private
+    controller: App\Controller\MessagePrivateController::displayMessages
+
+app_cookies:
+    path: /cookies
+    controller: App\Controller\HomeController::cookies
+
+app_refuse_cookies:
+    path: /refuse-cookies
+    controller: App\Controller\HomeController::refuseCookies

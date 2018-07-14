@@ -3,6 +3,7 @@
     namespace App\Controller;
 
     use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+    use Symfony\Component\HttpFoundation\Session\SessionInterface;
     use App\Entity\Camera;
     use App\Entity\Lens;
     use App\Entity\User;
@@ -68,4 +69,15 @@
             return $this->render('Camera/mentions.html.twig');
         }
 
+        public function cookies(SessionInterface $session)
+        {
+            $session->set('cookiesannouncement', true);
+
+            return $this->redirectToRoute('app_home');
+        }
+
+        public function refuseCookies()
+        {
+            return $this->render('Camera/refusecookies.html.twig');
+        }
     }

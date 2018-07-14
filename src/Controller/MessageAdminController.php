@@ -12,6 +12,7 @@
     {
         public function addMessage(Request $request)
         {
+            // sends a new message
             $message = new MessageAdmin();
             $em = $this->getDoctrine()->getManager();
             $form = $this->createForm(MessageAdminType::class, $message);
@@ -23,7 +24,7 @@
                 $message->setUser($this->getUser());
                 $em->persist($message);
                 $em->flush();
-                $request->getSession()->getFlashBag()->add('info', 'Votre message a été envoyé.');
+                $this->addFlash('info', 'Votre message a été envoyé.');
 
                 return $this->redirectToRoute('app_home');
             }
@@ -36,10 +37,12 @@
 
         public function displayMessages(Pagination $pagination, $page)
         {
+            // display the list of message
             $repository = $this->getDoctrine()->getManager()->getRepository(MessageAdmin::class);
             $numberMessages = $repository->getNumber();
             $number = $numberMessages[0]['t'];
             $numberPages = $pagination->numberPages($number, 10);
+            // retrieve the list of messages
             $list = $repository->findBy(
                 array(),
                 array('id' => 'DESC'),
@@ -56,12 +59,13 @@
 
         public function deleteMessage(Request $request, $id)
         {
+            // delete a message
             $em = $this->getDoctrine()->getManager();
             $message = $em->getRepository(MessageAdmin::class)->find($id);
             $em->remove($message);
             $em->flush();
 
-            $request->getSession()->getFlashBag()->add('info', 'Le message a été effacé.');
+            $this->addFlash('info', 'Le message a été effacé.');
             return $this->redirectToRoute('app_admin');
         }
     }

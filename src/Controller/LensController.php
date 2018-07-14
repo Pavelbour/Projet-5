@@ -18,6 +18,7 @@
     {
         public function lensesPage(Request $request, Pagination $pagination, $id)
         {
+            // displays the list of the lenses
             $lens = new Lens();
             $repository = $this
             ->getDoctrine()
@@ -52,6 +53,7 @@
 
         public function lens(Request $request, $id)
         {
+            // display the page of a lens
             $repository = $this
             ->getDoctrine()
             ->getManager()
@@ -118,7 +120,7 @@
                 $em->persist($forum);
                 $em->persist($lens);
                 $em->flush();
-                $request->getSession()->getFlashBag()->add('info', 'L\'objectif a été ajouté');
+                $this->addFlash('info', 'L\'objectif a été ajouté');
 
                 return $this->redirectToRoute('app_lens', array(
                     'id' => $lens->getId()
@@ -133,7 +135,7 @@
 
         public function modifyLens(Request $request, FileUploader $fileUploader, $id)
         {
-
+            // modify a lens
             $em = $this->getDoctrine()->getManager();
             $lens = $em->getRepository(Lens::class)->find($id);
             if ($lens->getImage != null) {
@@ -154,7 +156,7 @@
                 }
 
                 $em->flush();
-                $request->getSession()->getFlashBag()->add('info', 'L\'objectif a été modifié');
+                $this->addFlash('info', 'L\'objectif a été modifié');
 
                 return $this->redirectToRoute('app_lens', array(
                     'id' => $lens->getId()
@@ -176,7 +178,7 @@
             $theme->setParentId(7);
             $em->remove($lens);
             $em->flush();
-            $request->getSession()->getFlashBag()->add('info', 'L\'objectif a été effacé');
+            $this->addFlash('info', 'L\'objectif a été effacé');
             return $this->redirectToRoute('app_lenses_page', array(
                 'id' => 1
             ));
@@ -184,10 +186,12 @@
 
         public function deleteComment($id, $lensId)
         {
+            // deletes a comment
             $em = $this->getDoctrine()->getManager();
             $comment = $em->getRepository(LensComment::class)->find($id);
             $em->remove($comment);
             $em->flush();
+            $this->addFlash('info', 'Le commentaire a été effacé.');
             return $this->redirectToRoute('app_lens', array(
                 'id' => $lensId
             ));

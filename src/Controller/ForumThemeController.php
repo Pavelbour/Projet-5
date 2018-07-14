@@ -14,11 +14,13 @@
 
         public function theme(Request $request, Pagination $pagination, $id, $page, $mpage)
         {
+            // display a theme of the forum
             $em = $this->getDoctrine()->getManager();
             $tRepository = $em->getRepository(ForumTheme::class);
             $mRepository = $em->getRepository(ForumMessage::class);
             $currentTheme = $tRepository->find($id);
 
+            // retrieves the list of themes
             $list = $tRepository->findBy(
                 array('parentId' => $id),
                 array('id' => 'DESC'),
@@ -33,9 +35,10 @@
             $pList = $pagination->numberPages($nT, 2);
             $mList = $pagination->numberPages($nM, 2);
 
+            // retrieves the list of messages
             $messages = $mRepository->findBy(
                 array('theme' => $currentTheme),
-                array('id' => 'DESC'),
+                array(),
                 2,
                 ($mpage-1) * 2
             );
@@ -93,7 +96,7 @@
                 $newTheme->setParentId($id);
                 $em->persist($newTheme);
                 $em->flush();
-                $request->getSession()->getFlashBag()->add('info', 'Le nouveau thème a été ajouté.');
+                $this->addFlash('info', 'Le nouveau thème a été ajouté.');
 
                 return $this->redirectToRoute('app_forum', array(
                     'id' => $id,
