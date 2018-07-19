@@ -29,7 +29,7 @@ class CamManufacturerController extends Controller
 
             $forum = new ForumTheme();
             $forum->setTheme($manufacturer->getManufacturer());
-            $forum->setParentId(3);
+            $forum->setParentId(4);
             $em = $this->getDoctrine()->getManager();
             $manufacturer->setTheme($forum);
             $em->persist($forum);

@@ -31,7 +31,9 @@ class CamCategoryController extends Controller
 
             $request->getSession()->getFlashBag()->add('notice', 'La catégorie a été ajoutée.');
 
-            return $this->redirectToRoute('app_cameras');
+            return $this->redirectToRoute('app_cameras_page', array(
+                'id' => 1
+            ));
         }
 
         return $this->render('Camera/add.html.twig', array(

@@ -26,7 +26,7 @@ class LensManufacturerController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $forum = new ForumTheme();
             $forum->setTheme($manufacturer->getManufacturer());
-            $forum->setParentId(4);
+            $forum->setParentId(5);
             $manufacturer->setTheme($forum);
             $em = $this->getDoctrine()->getManager();
             $em->persist($forum);

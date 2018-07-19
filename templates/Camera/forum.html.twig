@@ -7,7 +7,7 @@
 
     <nav>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ path('app_forum', { 'id': 1, 'page': 1, 'mpage': 1 }) }}">Forum</a></li>
+            <li class="breadcrumb-item"><a href="{{ path('app_forum', { 'id': 3, 'page': 1, 'mpage': 1 }) }}">Forum</a></li>
         {% for item in breadcrumb %}
             <li class="breadcrumb-item"><a href="{{ path('app_forum', { 'id': item.id, 'page': 1, 'mpage': 1 }) }}">{{ item.theme }}</a></li>
         {% endfor %}
@@ -16,9 +16,9 @@
 
     {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
         <div class="row justify-content-end">
-            <div class="col-3">
+            <div class="col-2">
                 <a class="btn btn-warning" href="{{ path('app_forum_add_theme', { 'id': currentTheme.id }) }}">
-                    Ajouter un nouveau theme
+                    Nouveau theme
                 </a>
             </div>
             <div class="col-2">
@@ -120,10 +120,10 @@
     </div>
 
     {% if mlist > 1 %}
-        <div class="row justify-content-end mt-2">
+        <div class="row justify-content-end mt-2 mb-5">
             <nav class="col-3">
                 <ul class="pagination">
-                    <li class="page-item"><a class="page-link" href="{{ path('app_forum', { 'theme': theme, 'page': 1, 'mpage': 1 }) }}"><span>&laquo;</span></a><li>
+                    <li class="page-item"><a class="page-link" href="{{ path('app_forum', { 'id': currentTheme.id, 'page': 1, 'mpage': 1 }) }}"><span>&laquo;</span></a><li>
                     
                     {% if mpage < 4 %}
                         {% set start = 1 %}
@@ -137,10 +137,10 @@
                     {% endif %}
 
                     {% for i in start..stop %}
-                        <li class="page-item"><a class="page-link" href="{{ path('app_forum', { 'theme': theme, 'page': 1, 'mpage': i }) }}">{{ i }}</a><li>
+                        <li class="page-item"><a class="page-link" href="{{ path('app_forum', { 'id': currentTheme.id, 'page': 1, 'mpage': i }) }}">{{ i }}</a><li>
                     {% endfor %}
 
-                    <li class="page-item"><a class="page-link" href="{{ path('app_forum', { 'theme': theme, 'page': 1, 'mpage': mlist }) }}"><span>&raquo;<span></a></li>
+                    <li class="page-item"><a class="page-link" href="{{ path('app_forum', { 'id': currentTheme.id, 'page': 1, 'mpage': mlist }) }}"><span>&raquo;<span></a></li>
                 </ul>
             </nav>
         </div>
