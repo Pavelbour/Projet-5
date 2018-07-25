@@ -32,15 +32,11 @@
             if ($form->isSubmitted() && $form->isValid()) {
                 $listLenses = $repository->filter($id, $lens->getManufacturer(), $lens->getMonture());
                 $numberLenses = $repository->filterNumber($lens->getManufacturer(), $lens->getMonture());
-                $numberPages = $pagination->numberPages($numberLenses, 2);
+                $numberPages = $pagination->numberPages($numberLenses, 10);
             } else {
                 $listLenses = $repository->filter($id);
                 $numberLenses = $repository->filterNumber();
-                $numberPages = $pagination->numberPages($numberLenses, 2);
-            }
-
-            if ($id == 1) {
-                $id = 2;
+                $numberPages = $pagination->numberPages($numberLenses, 10);
             }
 
             return $this->render('Camera/lenses.html.twig', array(

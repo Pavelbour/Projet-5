@@ -59,6 +59,14 @@ app_delete_current_user:
     path: /user/delete-current-user
     controller: App\Controller\UserController::deleteCurrentUser
 
+app_current_user_accept:
+    path: /user/accept
+    controller: App\Controller\UserController::currentUserAccept
+
+app_current_user_renounce:
+    path: /user/renounce
+    controller: App\Controller\UserController::currentUserRenounce
+
 app_cameras_page:
     path: /cameras/page/{id}
     controller: App\Controller\CameraController::camerasPage
@@ -76,7 +84,7 @@ app_add_new_camera:
     controller: App\Controller\CameraController::addCamera
 
 app_modify_camera:
-    path: /admin/modify-camera/{id}
+    path: /user/modify-camera/{id}
     controller: App\Controller\CameraController::modifyCamera
     requirements:
         id: '\d+'
@@ -115,7 +123,7 @@ app_add_new_lens:
     controller: App\Controller\LensController::addLens
 
 app_modify_lens:
-    path: /modify-lens/{id}
+    path: /user/modify-lens/{id}
     controller: App\Controller\LensController::modifyLens
     requirements:
         id: '\d+'
@@ -144,10 +152,6 @@ app_forum:
         id: '\d+'
         page: '\d+'
         mpage: '\d+'
-        
-app_user_test:
-    path: /user-test
-    controller: App\Controller\UserController::test
 
 app_add_new_category:
     path: /add-new-category
@@ -214,3 +218,7 @@ app_cookies:
 app_refuse_cookies:
     path: /refuse-cookies
     controller: App\Controller\HomeController::refuseCookies
+
+app_privacy:
+    path: /privacy
+    controller: App\Controller\HomeController::privacy

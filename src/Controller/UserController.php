@@ -40,8 +40,7 @@
                 return $this->redirectToRoute('app_home');
             }
 
-            return $this->render('Camera/add.html.twig', array(
-                'title' => 'Inscription',
+            return $this->render('Camera/signup.html.twig', array(
                 'form' => $form->createView()
             ));
         }
@@ -102,7 +101,7 @@
                 $form = $this->createForm(UserType::class, $user);
                 $form->handleRequest($request);
 
-                if ($form->isSubmitted() && $form->isValid() && $user->getPassword() == $form->get('confirmation')->getData()) {
+                if ($form->isSubmitted() && $form->isValid() && $user->getPassword() == $form->get('confirmation')->getData() && $form->get('privacy')->getData()) {
                     
                     $encoded = $encoder->encodePassword($user, $form->get('password')->getData());
                     $user->setPassword($encoded);
@@ -156,5 +155,25 @@
             $em->flush();
             $this->addFlash('info', 'Votre profil a été effacé');
             return $this->redirectToRoute('login');
+        }
+
+        public function currentUserAccept()
+        {
+            $user = $this->getUser();
+            $user->setPrivacy(true);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+            return $this->redirectToRoute('app_user');
+        }
+
+        public function currentUserRenounce()
+        {
+            $user = $this->getUser();
+            $user->setPrivacy(false);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+            return $this->redirectToRoute('app_user');
         }
     }

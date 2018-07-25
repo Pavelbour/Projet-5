@@ -77,6 +77,11 @@ class User implements UserInterface, \Serializable
      */
     private $messagePrivate;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $privacy;
+
     public function __construct()
     {
         $this->cameraComments = new ArrayCollection();
@@ -324,6 +329,18 @@ class User implements UserInterface, \Serializable
         if ($this !== $messagePrivate->getFromUser()) {
             $messagePrivate->setFromUser($this);
         }
+
+        return $this;
+    }
+
+    public function getPrivacy(): ?bool
+    {
+        return $this->privacy;
+    }
+
+    public function setPrivacy(bool $privacy): self
+    {
+        $this->privacy = $privacy;
 
         return $this;
     }

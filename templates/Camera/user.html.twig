@@ -12,7 +12,7 @@
             <div class="card text-center">
                 <div class="card-body">
                     <h5 class="card-title">{{ app.user.username }}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">{{ app.user.email }}</div>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ app.user.email }}</h6>
                     <a class="btn sm-btn btn-primary mb-2" href="{{ path('app_modify_carrent_user') }}">Modifiér mon profil</a>
                 </div>
             </div>
@@ -27,9 +27,31 @@
         <div class="col-lg-3 col-md-4">
             <div class="card text-center">
                 <div class="card-body">
+                    <h5 class="card-title">Messages privés</h5>
                     <a class="btn sm-btn btn-primary mb-2" href="{{ path('app_messages_private') }}">Messages privés</a>
                 </div>
             </div>
         </div>
+        {% if app.user.privacy %}
+            <div class="col-lg-3 col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Renoncer les coockies</h5>
+                        <h6 class="card-subtitle mb-2 text-muted"><a href="{{ path('app_privacy') }}">Les règles de confidentialité</a></h6>
+                        <a class="btn sm-btn btn-primary mb-2" href="{{ path('app_current_user_renounce') }}">Renoncer les cookies</a>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="col-lg-3 col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Accepter les coockies</h5>
+                        <h6 class="card-subtitle mb-2 text-muted"><a href="{{ path('app_privacy') }}">Les règles de confidentialité</a></h6> 
+                        <a class="btn sm-btn btn-primary mb-2" href="{{ path('app_current_user_accept') }}">Accepter les cookies</a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}

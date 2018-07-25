@@ -80,4 +80,9 @@
         {
             return $this->render('Camera/refusecookies.html.twig');
         }
+
+        public function privacy()
+        {
+            return $this->render('Camera/privacy.html.twig');
+        }
     }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  jeu. 19 juil. 2018 à 15:55
+-- Généré le :  mer. 25 juil. 2018 à 16:03
 -- Version du serveur :  5.5.59
 -- Version de PHP :  7.1.9
 
@@ -47,17 +47,18 @@ CREATE TABLE IF NOT EXISTS `camera` (
   UNIQUE KEY `UNIQ_3B1CEE0559027487` (`theme_id`),
   KEY `IDX_3B1CEE0512469DE2` (`category_id`),
   KEY `IDX_3B1CEE05A23B42D` (`manufacturer_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Déchargement des données de la table `camera`
 --
 
 INSERT INTO `camera` (`id`, `category_id`, `manufacturer_id`, `theme_id`, `camera_name`, `sensor`, `length`, `width`, `height`, `weight`, `description`, `time`, `image`) VALUES
-(1, 1, 1, 2, 'EOS 750D', 'APS-C 24Mp 6000X4000', 132, 78, 101, 555, 'Un appareil pour les débutants/amateurs de Canon.', '1/4000s', 'ed1c5e5e40a54065786983aea7c52ca8.jpeg'),
-(2, 1, 1, 6, 'EOS 760D', 'APS-C 24Mp 6000X4000', 132, 78, 101, 555, 'Une modification de l\'EOS 750D.', '1/4000s', 'fe158604359c11d4aec4814c32be2a8d.jpeg'),
-(3, 2, 2, 10, 'A7R III', 'FF 42,4Mpx 7952x5304', 130, 60, 96, 470, 'Un hybride haute résolution de Sony', '1/8000s', '62ec364dd7f0229ce5de6bd71c5d11ce.jpeg'),
-(4, 1, 3, 12, 'K-1 II', 'FF 36Mpx 7360x4912', 146, 78, 124, 925, 'Le meilleur appareil pour les paysages.', '1/8000s', NULL);
+(1, 1, 1, 2, 'EOS 750D', 'APS-C 24Mp 6000X4000', 132, 78, 101, 555, 'Un appareil pour les débutants/amateurs de Canon.', '1/4000s', NULL),
+(2, 1, 1, 6, 'EOS 760D', 'APS-C 24Mp 6000X4000', 132, 78, 101, 555, 'Une modification de l\'EOS 750D.', '1/4000s', NULL),
+(3, 2, 2, 10, 'A7R III', 'FF 42,4Mpx 7952x5304', 130, 60, 96, 470, 'Un hybride haute résolution de Sony', '1/8000s', NULL),
+(4, 1, 3, 12, 'K-1 II', 'FF 36Mpx 7360x4912', 146, 78, 124, 925, 'Le meilleur appareil pour les paysages.', '1/8000s', NULL),
+(5, 2, 1, 14, 'M50', 'APS-C 24Mp 6000X4000', 130, 78, 96, 500, 'Test', '1/4000s', NULL);
 
 -- --------------------------------------------------------
 
@@ -75,14 +76,15 @@ CREATE TABLE IF NOT EXISTS `camera_comment` (
   PRIMARY KEY (`id`),
   KEY `IDX_59A62B48A47890` (`camera_id_id`),
   KEY `IDX_59A62B489D86650F` (`user_id_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Déchargement des données de la table `camera_comment`
 --
 
 INSERT INTO `camera_comment` (`id`, `camera_id_id`, `user_id_id`, `comment`, `added`) VALUES
-(1, 4, 2, 'Le meilleur appareil à mon avis.', '2018-07-19 15:16:28');
+(1, 4, 2, 'Le meilleur appareil à mon avis.', '2018-07-19 15:16:28'),
+(2, 4, 4, 'Magnifique !!!', '2018-07-19 16:38:39');
 
 -- --------------------------------------------------------
 
@@ -109,7 +111,9 @@ INSERT INTO `camera_monture` (`camera_id`, `monture_id`) VALUES
 (2, 1),
 (2, 2),
 (3, 3),
-(4, 4);
+(4, 4),
+(5, 1),
+(5, 2);
 
 -- --------------------------------------------------------
 
@@ -174,7 +178,7 @@ CREATE TABLE IF NOT EXISTS `forum_message` (
   PRIMARY KEY (`id`),
   KEY `IDX_47717D0E59027487` (`theme_id`),
   KEY `IDX_47717D0EA76ED395` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Déchargement des données de la table `forum_message`
@@ -184,7 +188,9 @@ INSERT INTO `forum_message` (`id`, `theme_id`, `user_id`, `message`, `added`) VA
 (1, 2, 2, 'La plage dynamique de cet appareil est très faible donc il n\'est pas bon pour les paysages.', '2018-07-19 10:09:56'),
 (2, 2, 3, 'Il est quand même possible de photographier les paysages avec cet appareil.', '2018-07-19 10:12:25'),
 (3, 2, 2, 'Oui, mais c\'est plus gênant qu\'avec Pentax K1.', '2018-07-19 10:14:49'),
-(4, 2, 3, 'K-1 est 3 fois plus cher.', '2018-07-19 10:26:07');
+(4, 2, 3, 'K-1 est 3 fois plus cher.', '2018-07-19 10:26:07'),
+(5, 15, 4, 'Le piqué est excellent', '2018-07-19 16:41:44'),
+(6, 15, 4, '<strong>Test</strong>', '2018-07-19 16:48:11');
 
 -- --------------------------------------------------------
 
@@ -198,7 +204,7 @@ CREATE TABLE IF NOT EXISTS `forum_theme` (
   `theme` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `parent_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Déchargement des données de la table `forum_theme`
@@ -217,7 +223,9 @@ INSERT INTO `forum_theme` (`id`, `theme`, `parent_id`) VALUES
 (10, 'A7R III', 9),
 (11, 'Pentax', 4),
 (12, 'K-1 II', 11),
-(13, 'La plage dynamique', 2);
+(13, 'La plage dynamique', 2),
+(14, 'M50', 1),
+(15, 'Le piqué', 14);
 
 -- --------------------------------------------------------
 
@@ -369,7 +377,7 @@ CREATE TABLE IF NOT EXISTS `migration_versions` (
 --
 
 INSERT INTO `migration_versions` (`version`) VALUES
-('20180716155501');
+('20180722161238');
 
 -- --------------------------------------------------------
 
@@ -411,19 +419,22 @@ CREATE TABLE IF NOT EXISTS `users` (
   `roles` longtext COLLATE utf8_unicode_ci NOT NULL COMMENT '(DC2Type:array)',
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `avatar` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `privacy` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_1483A5E9F85E0677` (`username`),
   UNIQUE KEY `UNIQ_1483A5E9E7927C74` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Déchargement des données de la table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`, `salt`, `roles`, `email`, `avatar`) VALUES
-(1, 'admin', '$2y$12$Ehg1L9oFQDE28O3cMzu/4.KpbdY6r.8TUKhHRCLVL1bYpc7ZyIlr6', '', 'a:1:{i:0;s:10:\"ROLE_ADMIN\";}', 'admin@test.fr', NULL),
-(2, 'Thomas', '$2y$12$XwwbQuP6v/ak3tKoMnCvwumsdc3J3K/DxbnXvmzzGEO7uIkTeimoW', '', 'a:1:{i:0;s:9:\"ROLE_USER\";}', 'thomas@orange.fr', NULL),
-(3, 'Anne', '$2y$12$jhszhVT2neK6RW/BjK57BuHDfzafm0dhNGfo77t7ukpKlKVPdDqVu', '', 'a:1:{i:0;s:9:\"ROLE_USER\";}', 'anne@gmail.com', NULL);
+INSERT INTO `users` (`id`, `username`, `password`, `salt`, `roles`, `email`, `avatar`, `privacy`) VALUES
+(1, 'admin', '$2y$12$Ehg1L9oFQDE28O3cMzu/4.KpbdY6r.8TUKhHRCLVL1bYpc7ZyIlr6', '', 'a:1:{i:0;s:10:\"ROLE_ADMIN\";}', 'admin@test.fr', NULL, 0),
+(2, 'Thomas', '$2y$12$XwwbQuP6v/ak3tKoMnCvwumsdc3J3K/DxbnXvmzzGEO7uIkTeimoW', '', 'a:1:{i:0;s:9:\"ROLE_USER\";}', 'thomas@orange.fr', NULL, 0),
+(3, 'Anne', '$2y$12$jhszhVT2neK6RW/BjK57BuHDfzafm0dhNGfo77t7ukpKlKVPdDqVu', '', 'a:1:{i:0;s:9:\"ROLE_USER\";}', 'anne@gmail.com', NULL, 0),
+(4, 'Nik', '$2y$12$Wge4VtnmpNKZ9VNV0U2mYOoc3Po6xqvO7SYRvR3efNcN/pXwV7Kb2', '', 'a:1:{i:0;s:9:\"ROLE_USER\";}', 'nik@gmail.com', NULL, 0),
+(5, 'Test', '$2y$12$UzGKjjxRPvjbMRVhot3WbOmu.Zk30IE5npZWpmzgdqnqVh91TP9oK', '', 'a:1:{i:0;s:9:\"ROLE_USER\";}', 'test@gmail.com', NULL, 1);
 
 --
 -- Contraintes pour les tables déchargées

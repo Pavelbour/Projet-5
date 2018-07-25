@@ -42,8 +42,8 @@ class LensRepository extends ServiceEntityRepository
         }
 
         $qb->orderBy('l.id', 'DESC')
-            ->setFirstResult(($id - 1)*2)
-            ->setMaxResults(2);
+            ->setFirstResult(($id - 1)*10)
+            ->setMaxResults(10);
         
         return $qb->getQuery()->getResult();
 

@@ -30,6 +30,7 @@
                                         Ce site utilise des coockies.
                                         <a class="btn btn-sm btn-success" href="{{ path('app_cookies') }}">J'accèpte</a>
                                         <a class="btn btn-sm btn-success" href="{{ path('app_refuse_cookies') }}">Je refuse</a>
+                                        <a href="{{ path('app_privacy') }}">En savoir plus</a>
                                         <button type="button" class="close" data-dismiss="alert">
                                             <span>&times;</span>
                                         </button>
@@ -69,6 +70,9 @@
                     {% endif %}
                     <li class="nav-item">
                         <a  class="nav-link" href="{{ path('app_mentions') }}">Mentions legales</a>
+                    </li>
+                    <li class="nav-item">
+                        <a  class="nav-link" href="{{ path('app_privacy') }}">Confidentialité</a>
                     </li>
                 </ul>
             </nav>

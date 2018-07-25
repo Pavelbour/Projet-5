@@ -24,23 +24,23 @@
             $list = $tRepository->findBy(
                 array('parentId' => $id),
                 array('id' => 'DESC'),
-                2,
-                ($page-1) * 2
+                10,
+                ($page-1) * 10
             );
 
             $numberOfThemes = $tRepository->getNumber($id);
             $numberOfMessages = $mRepository->getNumber($currentTheme);
             $nT = $numberOfThemes[0]['t'];
             $nM = $numberOfMessages[0]['t'];
-            $pList = $pagination->numberPages($nT, 2);
-            $mList = $pagination->numberPages($nM, 2);
+            $pList = $pagination->numberPages($nT, 10);
+            $mList = $pagination->numberPages($nM, 10);
 
             // retrieves the list of messages
             $messages = $mRepository->findBy(
                 array('theme' => $currentTheme),
                 array(),
-                2,
-                ($mpage-1) * 2
+                10,
+                ($mpage-1) * 10
             );
 
             $number = array();

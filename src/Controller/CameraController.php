@@ -30,15 +30,11 @@
             if ($form->isSubmitted() && $form->isValid()) {
                 $listCameras = $repository->filter($id, $camera->getManufacturer(), $camera->getCategory());
                 $numberCameras = $repository->filterNumber($camera->getManufacturer(), $camera->getCategory());
-                $numberPages = $pagination->numberPages((int)$numberCameras, 2);
+                $numberPages = $pagination->numberPages((int)$numberCameras, 10);
             } else {
                 $listCameras = $repository->filter($id);
                 $numberCameras = $repository->filterNumber();
-                $numberPages = $pagination->numberPages((int)$numberCameras, 2);
-            }
-
-            if ($id == 1) {
-                $id = 2;
+                $numberPages = $pagination->numberPages((int)$numberCameras, 10);
             }
 
             return $this->render('Camera/cameras.html.twig', array(
